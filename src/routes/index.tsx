@@ -455,7 +455,7 @@ function Index() {
           </Reveal>
 
           <StaggeredHeadline
-            text="Here's what I'm good at."
+            text="What we do best."
             highlightWords={["good"]}
             className="display mt-5 max-w-[14ch] text-[clamp(2.2rem,6vw,5rem)]"
           />
