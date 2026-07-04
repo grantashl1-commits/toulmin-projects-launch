@@ -257,7 +257,7 @@ function IntroSection() {
             className="display text-[clamp(2rem,5.5vw,3.6rem)] text-cream transition-opacity duration-700"
             style={{ opacity: line1Opacity }}
           >
-            Sixteen years of <span className="word-wood-light">experience.</span>
+            Sixteen years. Still obsessed with the <span className="word-wood-light">details.</span>
           </p>
 
           {/* Line 2 */}
@@ -272,8 +272,7 @@ function IntroSection() {
               start={showCounter}
               className="tabular-nums"
             />
-            , delivered without a single{" "}
-            <span className="word-wood-light">visible crack.</span>
+            . Not a single <span className="word-wood-light">hair out of place.</span>
           </p>
 
           {/* Line 3 */}
@@ -282,9 +281,9 @@ function IntroSection() {
             style={{ opacity: line3Opacity }}
           >
             <p className="display text-[clamp(2rem,5.5vw,3.6rem)] text-cream">
-              Deep expertise across tourism, events and{" "}
-              <span className="word-wood-light">strategic marketing</span> in Aotearoa and
-              internationally.
+              Deep in the weeds of tourism, events and{" "}
+              <span className="word-wood-light">strategic marketing</span> — here in Aotearoa and
+              well beyond it.
             </p>
             <p className="eyebrow mt-10 text-cream/50">Based in Taupō, New Zealand</p>
           </div>
@@ -352,8 +351,8 @@ function Index() {
 
           <Reveal delay={300} className="mt-7 max-w-xl">
             <p className="text-base text-cream/70 sm:text-lg sm:leading-relaxed">
-              Event management and delivery for luxury incentive partners. Marketing strategy and
-              execution for corporate clients.
+              I design and deliver events that people actually talk about afterwards — and build
+              marketing strategies that do more than just look nice in a slide deck.
             </p>
           </Reveal>
 
@@ -423,7 +422,7 @@ function Index() {
 
         <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
           <Reveal>
-            <p className="eyebrow text-cream/70">The Toulmin Standard</p>
+            <p className="eyebrow text-cream/70">The Approach</p>
           </Reveal>
           <Reveal delay={120}>
             <h2 className="spectacle-type mt-6 text-[clamp(3rem,13vw,10rem)] uppercase leading-[0.86]">
@@ -436,8 +435,8 @@ function Index() {
           </Reveal>
           <Reveal delay={240}>
             <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-cream/70 sm:text-lg">
-              One highly capable person with the confidence and scale of a proper agency — every
-              detail anticipated, nothing left to chance.
+              One person. The thoroughness of an agency. The accountability of someone whose name is
+              on the door.
             </p>
           </Reveal>
         </div>
@@ -453,8 +452,8 @@ function Index() {
           </Reveal>
 
           <StaggeredHeadline
-            text="Two ways I can help."
-            highlightWords={["help."]}
+            text="Here's what I'm good at."
+            highlightWords={["good"]}
             className="display mt-5 max-w-[14ch] text-[clamp(2.2rem,6vw,5rem)]"
           />
 
@@ -463,23 +462,23 @@ function Index() {
               {
                 title: "Event Management & Delivery",
                 context:
-                  "For DMCs and luxury incentive partners who need an expert on the ground in New Zealand.",
+                  "For DMCs and luxury incentive partners who need someone on the ground who actually knows New Zealand — not just reads about it.",
                 bullets: [
                   "Luxury incentive programmes & corporate events",
                   "End-to-end logistics & supplier management",
                   "Bespoke familiarisation programmes",
                   "On-site delivery & leadership",
-                  "Twenty-page runsheets, handled with meticulous care",
+                  "Runsheets thick enough to stop a door. Every page accounted for.",
                 ],
               },
               {
                 title: "Marketing Strategy & Execution",
                 context:
-                  "For corporate clients who need strategic marketing delivered with clarity and maturity.",
+                  "For corporate clients who need marketing that moves the needle — not just fills the calendar with colour.",
                 bullets: [
                   "Marketing strategy & planning",
                   "Email marketing & campaign implementation",
-                  "Social marketing aligned to business goals",
+                  "Social marketing aligned to actual business goals",
                   "Partnership, sponsorship & charity packages",
                   "Stakeholder liaison & brand collateral",
                 ],
@@ -512,7 +511,7 @@ function Index() {
 
           <Reveal delay={140}>
             <p className="mt-10 text-sm text-matte/40">
-              This is senior-level strategic work — not social media management.
+              Senior-level strategy and delivery — not posting pretty pictures and hoping for likes.
             </p>
           </Reveal>
         </div>
@@ -529,30 +528,30 @@ function Index() {
 
           <StaggeredHeadline
             light
-            text="A track record built on trust."
-            highlightWords={["trust."]}
+            text="Proof, not promises."
+            highlightWords={["Proof,"]}
             className="display mt-5 max-w-[14ch] text-cream text-[clamp(2.2rem,6vw,5rem)]"
           />
 
           <div className="mt-14 overflow-x-auto scrollbar-hide snap-x snap-mandatory">
             <div className="flex w-max gap-8 pb-4">
               {[
-                {
-                  label: "Luxury Incentive Programme",
-                  line: "A multi-day incentive for an international corporate group, delivered without a single guest ever knowing what nearly went wrong.",
-                },
-                {
-                  label: "Destination Marketing Campaign",
-                  line: "A regional tourism campaign built to convert business event buyers into repeat bookers.",
-                },
-                {
-                  label: "Corporate Event Delivery",
-                  line: "End-to-end delivery for a corporate client event, from concept through to the last supplier invoice reconciled.",
-                },
-                {
-                  label: "Strategic Marketing Partnership",
-                  line: "Ongoing email, social and sponsorship strategy for a corporate client who no longer thinks about it — because it\u2019s handled.",
-                },
+              {
+                label: "Luxury Incentive Programme",
+                line: "A multi-day incentive for an international corporate group. The guests never knew what nearly went wrong — because it didn't.",
+              },
+              {
+                label: "Destination Marketing Campaign",
+                line: "A regional tourism campaign that turned business event browsers into repeat bookers. Strategy first, pretty pictures second.",
+              },
+              {
+                label: "Corporate Event Delivery",
+                line: "Concept to the last supplier invoice reconciled. The client showed up and looked good. I handled everything else.",
+              },
+              {
+                label: "Strategic Marketing Partnership",
+                line: "Ongoing email, social and sponsorship strategy for a client who no longer thinks about marketing — because it's already working.",
+              },
               ].map((tile, i) => (
                 <Reveal
                   key={tile.label}
@@ -588,20 +587,15 @@ function Index() {
 
             <Reveal delay={200} className="mt-8">
               <p className="text-lg leading-relaxed text-matte/65 sm:text-xl sm:leading-relaxed">
-                I&rsquo;d love to hear about your project. The best way to start is with a relaxed,
-                no-obligation phone or Zoom call — it&rsquo;s always easier to talk things through
-                than go back and forth over email. No pressure, just a conversation about how I
-                might be able to help.
+                Tell me what you&rsquo;re working on. I&rsquo;ll tell you honestly whether I&rsquo;m the right fit
+                — and if I&rsquo;m not, I&rsquo;ll probably know someone who is. Best way to find out is a
+                quick phone or Zoom call. No pitch decks, no obligation, just a proper conversation.
               </p>
             </Reveal>
 
             <Reveal delay={280} className="mt-10 flex flex-col gap-5">
-              <MagneticButton href="mailto:louise@toulminprojects.co.nz">
-                Start a project
-              </MagneticButton>
-
               <p className="text-sm text-matte/55">
-                Or send me an email:{" "}
+                Drop me a line:{" "}
                 <a
                   href="mailto:louise@toulminprojects.co.nz"
                   className="font-medium text-wood underline-offset-4 transition-colors hover:underline"
@@ -643,9 +637,6 @@ function Index() {
             </a>
             <a href="#contact" className="text-sm text-cream/60 transition-colors hover:text-cream">
               Contact
-            </a>
-            <a href="#contact" className="btn-outline-light text-xs">
-              Start a project
             </a>
           </nav>
 
