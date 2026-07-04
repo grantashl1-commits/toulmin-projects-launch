@@ -8,6 +8,7 @@ import { AnimatedCounter } from "@/components/AnimatedCounter";
 
 import heroImg from "@/assets/hero.jpg";
 import statementImg from "@/assets/statement.jpg";
+import logoFooter from "@/assets/logo-footer.png";
 import spectacleImg from "@/assets/spectacle.jpg";
 import expIncentive from "@/assets/exp-incentive.jpg";
 import expMarketing from "@/assets/exp-marketing.jpg";
