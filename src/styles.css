@@ -367,7 +367,28 @@
     );
 }
 
-/* ===== TILT ON HOVER ===== */
+/* ===== SPECTACLE MOMENT — gilded wood lettering ===== */
+
+@utility spectacle-type {
+  font-family: var(--font-serif);
+  font-weight: 900;
+  font-optical-sizing: auto;
+  line-height: 0.9;
+  letter-spacing: -0.005em;
+  background-image: linear-gradient(
+    120deg,
+    #e7c79a 0%,
+    #cf9f65 22%,
+    #f3ddb5 40%,
+    #c68f52 60%,
+    #e7c79a 82%,
+    #c68f52 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 1px 40px rgba(0, 0, 0, 0.35);
+}
 
 @utility tilt-target {
   transform-style: preserve-3d;
