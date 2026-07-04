@@ -352,8 +352,8 @@ function Index() {
 
           <Reveal delay={300} className="mt-7 max-w-xl">
             <p className="text-base text-cream/70 sm:text-lg sm:leading-relaxed">
-              I design and deliver events that people actually talk about afterwards — and build
-              marketing strategies that do more than just look nice in a slide deck.
+              Toulmin Projects designs and delivers events people talk about long after the lights go
+              down — and marketing strategies built to do more than look good in a slide deck.
             </p>
           </Reveal>
 
