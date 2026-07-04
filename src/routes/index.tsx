@@ -249,7 +249,7 @@ function IntroSection() {
         {/* Background */}
         <div className="absolute inset-0">
           <img
-            src={spectacleImg}
+            src={statementImg}
             alt=""
             aria-hidden="true"
             className="animate-kenburns h-full w-full object-cover"
