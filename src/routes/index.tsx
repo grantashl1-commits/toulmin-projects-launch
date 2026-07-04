@@ -352,8 +352,8 @@ function Index() {
 
           <Reveal delay={300} className="mt-7 max-w-xl">
             <p className="text-base text-cream/70 sm:text-lg sm:leading-relaxed">
-              Event management and delivery for luxury incentive partners. Marketing strategy and
-              execution for corporate clients.
+              I design and deliver events that people actually talk about afterwards — and build
+              marketing strategies that do more than just look nice in a slide deck.
             </p>
           </Reveal>
 
