@@ -528,8 +528,8 @@ function Index() {
 
           <StaggeredHeadline
             light
-            text="A track record built on trust."
-            highlightWords={["trust."]}
+            text="Proof, not promises."
+            highlightWords={["Proof,"]}
             className="display mt-5 max-w-[14ch] text-cream text-[clamp(2.2rem,6vw,5rem)]"
           />
 
