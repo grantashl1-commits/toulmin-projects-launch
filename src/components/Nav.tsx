@@ -137,13 +137,6 @@ export function Nav() {
                 {l.label}
               </a>
             ))}
-            <a
-              href="#contact"
-              onClick={() => setOpen(false)}
-              className="btn-outline mt-4 self-start"
-            >
-              Start a project
-            </a>
           </nav>
         </div>
       </header>
