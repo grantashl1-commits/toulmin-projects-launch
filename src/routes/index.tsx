@@ -477,7 +477,7 @@ function Index() {
               {
                 title: "Marketing Strategy & Execution",
                 context:
-                  "For corporate clients who need marketing that moves the needle — not just fills the calendar with colour.",
+                  "For corporate clients who want marketing that moves the needle — not just fills the calendar with colour.",
                 bullets: [
                   "Marketing strategy & planning",
                   "Email marketing & campaign implementation",
