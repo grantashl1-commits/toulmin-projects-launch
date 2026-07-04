@@ -44,17 +44,19 @@
 
   --color-cream: var(--tp-cream);
   --color-wood: var(--tp-wood);
+  --color-wood-light: var(--tp-wood-light);
   --color-matte: var(--tp-matte);
   --color-gloss: var(--tp-gloss);
 
   --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", Georgia, serif;
+  --font-serif: "Fraunces", Georgia, serif;
 }
 
 :root {
   --radius: 0.25rem;
   --tp-cream: #efe8da;
   --tp-wood: #6b4630;
+  --tp-wood-light: #bd8a5e;
   --tp-matte: #17181a;
   --tp-gloss: #0a0a0a;
 
