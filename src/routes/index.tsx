@@ -465,7 +465,7 @@ function Index() {
               {
                 title: "Event Management & Delivery",
                 context:
-                  "For DMCs and luxury incentive partners who need someone on the ground who actually knows New Zealand — not just reads about it.",
+                  "For DMCs and luxury incentive partners who need a New Zealand specialist on the ground — someone who knows the country first-hand, not just from a brochure.",
                 bullets: [
                   "Luxury incentive programmes & corporate events",
                   "End-to-end logistics & supplier management",
