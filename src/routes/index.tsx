@@ -1,255 +1,390 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
 import { Reveal } from "@/components/Reveal";
+import { Nav } from "@/components/Nav";
+import { MagneticButton } from "@/components/MagneticButton";
+import { AnimatedCounter } from "@/components/AnimatedCounter";
+
 import heroImg from "@/assets/hero.jpg";
-import portraitImg from "@/assets/portrait.jpg";
+import spectacleImg from "@/assets/spectacle.jpg";
 import expIncentive from "@/assets/exp-incentive.jpg";
 import expMarketing from "@/assets/exp-marketing.jpg";
 import expCorporate from "@/assets/exp-corporate.jpg";
 import expStrategy from "@/assets/exp-strategy.jpg";
-import spectacleImg from "@/assets/spectacle.jpg";
 
-export const Route = createFileRoute("/")({
-  component: Index,
-});
+export const Route = createFileRoute("/")({ component: Index });
 
-const NAV_LINKS = [
-  { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Experiences", href: "#experiences" },
-  { label: "Contact", href: "#contact" },
-];
+/* ------------------------------------------------------------------ */
+/*  Custom hooks                                                       */
+/* ------------------------------------------------------------------ */
 
-function Wordmark({ reversed = false }: { reversed?: boolean }) {
+function useScrollY() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => setScrollY(window.scrollY));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  return scrollY;
+}
+
+function useIntersectionWords(ref: React.RefObject<HTMLElement | null>) {
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.25 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [ref]);
+
+  return inView;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Staggered headline — word-by-word reveal                           */
+/* ------------------------------------------------------------------ */
+
+interface StaggeredHeadlineProps {
+  text: string;
+  underlineWord?: string;
+  as?: "h1" | "h2";
+  className?: string;
+}
+
+function StaggeredHeadline({
+  text,
+  underlineWord,
+  as: Tag = "h2",
+  className = "",
+}: StaggeredHeadlineProps) {
+  const containerRef = useRef<HTMLHeadingElement>(null);
+  const inView = useIntersectionWords(containerRef);
+  const words = text.split(" ");
+
   return (
-    <a href="#top" className="inline-block leading-none" aria-label="Toulmin Projects — home">
-      <span
-        className={`wordmark block text-lg sm:text-xl ${reversed ? "text-cream" : "text-ink"}`}
-      >
-        Toulmin Projects
-      </span>
-      <span className="mt-1.5 block h-px w-full bg-champagne" aria-hidden="true" />
-    </a>
+    <Tag ref={containerRef as React.RefObject<HTMLHeadingElement>} className={className}>
+      {words.map((word, i) => {
+        const wordCleaned = word.toLowerCase().replace(/[^a-z]/g, "");
+        const matchCleaned = (underlineWord ?? "").toLowerCase().replace(/[^a-z]/g, "");
+        const isUnderlined = underlineWord && wordCleaned === matchCleaned;
+
+        return (
+          <span
+            key={i}
+            className={`reveal-word ${inView ? "reveal-word-in" : ""}`}
+            style={{ transitionDelay: `${i * 65}ms` }}
+          >
+            {isUnderlined ? (
+              <span className={`underline-wood ${inView ? "underline-wood-drawn" : ""}`}>
+                {word.replace(/[.,;:!?]$/, "")}
+              </span>
+            ) : (
+              word
+            )}{" "}
+          </span>
+        );
+      })}
+    </Tag>
   );
 }
 
-function Nav() {
-  const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
+/* ------------------------------------------------------------------ */
+/*  Photo-grid tile with cursor tilt                                    */
+/* ------------------------------------------------------------------ */
+
+function PhotoGridTile({ img, label, location }: { img: string; label: string; location: string }) {
+  const tileRef = useRef<HTMLDivElement>(null);
+  const [isTouch, setIsTouch] = useState(true);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    setIsTouch("ontouchstart" in window || navigator.maxTouchPoints > 0);
+  }, []);
+
+  const onMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (isTouch || !tileRef.current) return;
+      const rect = tileRef.current.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      tileRef.current.style.transform = `perspective(1200px) rotateY(${x * 5}deg) rotateX(${-y * 4}deg)`;
+    },
+    [isTouch],
+  );
+
+  const onLeave = useCallback(() => {
+    if (tileRef.current) {
+      tileRef.current.style.transform = "perspective(1200px) rotateY(0deg) rotateX(0deg)";
+    }
   }, []);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
-        scrolled ? "bg-near/95 backdrop-blur-sm" : "bg-transparent"
-      }`}
-    >
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 sm:px-8 sm:py-5">
-        <Wordmark reversed />
-
-        <nav className="hidden items-center gap-9 md:flex" aria-label="Primary">
-          {NAV_LINKS.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-sm text-cream/80 transition-colors hover:text-champagne"
-            >
-              {l.label}
-            </a>
-          ))}
-          <a href="#contact" className="btn-outline text-cream">
-            Start a project ›
-          </a>
-        </nav>
-
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          className="flex h-10 w-10 items-center justify-center text-cream md:hidden"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-        >
-          <span className="relative block h-4 w-6">
-            <span
-              className={`absolute left-0 block h-px w-6 bg-current transition-transform duration-300 ${
-                open ? "top-1/2 rotate-45" : "top-0"
-              }`}
-            />
-            <span
-              className={`absolute left-0 top-1/2 block h-px w-6 bg-current transition-opacity duration-300 ${
-                open ? "opacity-0" : "opacity-100"
-              }`}
-            />
-            <span
-              className={`absolute left-0 block h-px w-6 bg-current transition-transform duration-300 ${
-                open ? "top-1/2 -rotate-45" : "bottom-0"
-              }`}
-            />
-          </span>
-        </button>
-      </div>
-
-      {/* Mobile menu */}
+    <Reveal className="w-full">
       <div
-        className={`overflow-hidden bg-near transition-[max-height] duration-500 md:hidden ${
-          open ? "max-h-96" : "max-h-0"
-        }`}
+        ref={tileRef}
+        onMouseMove={onMove}
+        onMouseLeave={onLeave}
+        className="tilt-target group relative aspect-[4/3] w-full overflow-hidden"
       >
-        <nav className="flex flex-col gap-1 px-5 pb-6 pt-2" aria-label="Mobile">
-          {NAV_LINKS.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="border-b border-cream/10 py-3 text-cream/85"
-            >
-              {l.label}
-            </a>
-          ))}
-          <a
-            href="#contact"
-            onClick={() => setOpen(false)}
-            className="btn-outline mt-4 self-start text-cream"
-          >
-            Start a project ›
-          </a>
-        </nav>
+        <img
+          src={img}
+          alt={label}
+          loading="lazy"
+          className="animate-kenburns-hover h-full w-full object-cover"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-matte/55 via-transparent to-transparent"
+          aria-hidden="true"
+        />
+        <div className="absolute bottom-4 left-4 right-4">
+          <p className="eyebrow mb-1 text-cream/85">{location}</p>
+          <p className="text-cream text-lg font-semibold leading-tight">{label}</p>
+        </div>
       </div>
-    </header>
+    </Reveal>
   );
 }
 
-function Index() {
+/* ------------------------------------------------------------------ */
+/*  Scroll-pinned intro statement section                               */
+/* ------------------------------------------------------------------ */
+
+function IntroSection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
+  const counterTriggered = useRef(false);
+  const [showCounter, setShowCounter] = useState(false);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) {
+      setProgress(1);
+      setShowCounter(true);
+      return;
+    }
+
+    const section = sectionRef.current;
+    if (!section) return;
+
+    let raf = 0;
+
+    const tick = () => {
+      const rect = section.getBoundingClientRect();
+      const sectionH = section.offsetHeight;
+      const viewportH = window.innerHeight;
+      const scrollable = sectionH - viewportH;
+      if (scrollable <= 0) {
+        setProgress(1);
+        return;
+      }
+      const scrolled = -rect.top;
+      const p = Math.max(0, Math.min(1, scrolled / scrollable));
+      setProgress(p);
+
+      if (p >= 0.24 && !counterTriggered.current) {
+        counterTriggered.current = true;
+        setShowCounter(true);
+      }
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    tick();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  const line1Opacity = progress < 0.22 ? 1 : progress < 0.3 ? 1 - (progress - 0.22) / 0.08 : 0;
+  const line2Opacity =
+    progress < 0.22
+      ? 0
+      : progress < 0.3
+        ? (progress - 0.22) / 0.08
+        : progress < 0.58
+          ? 1
+          : progress < 0.66
+            ? 1 - (progress - 0.58) / 0.08
+            : 0;
+  const line3Opacity = progress < 0.58 ? 0 : progress < 0.66 ? (progress - 0.58) / 0.08 : 1;
+
   return (
-    <div id="top" className="bg-ink text-cream">
+    <section ref={sectionRef} className="relative" style={{ height: "250vh" }} id="about">
+      <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0">
+          <img
+            src={spectacleImg}
+            alt=""
+            aria-hidden="true"
+            className="animate-kenburns h-full w-full object-cover"
+          />
+        </div>
+        <div className="absolute inset-0 bg-matte/55" />
+
+        {/* Text layers */}
+        <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
+          {/* Line 1 */}
+          <p
+            className="display text-[clamp(1.8rem,5vw,2.8rem)] text-cream transition-opacity duration-700"
+            style={{ opacity: line1Opacity }}
+          >
+            Sixteen years of experience.
+          </p>
+
+          {/* Line 2 */}
+          <p
+            className="display text-[clamp(1.8rem,5vw,2.8rem)] text-cream transition-opacity duration-700"
+            style={{ opacity: line2Opacity, marginTop: "-0.5em" }}
+          >
+            <AnimatedCounter
+              end={16}
+              prefix=""
+              suffix="+ years"
+              start={showCounter}
+              className="tabular-nums"
+            />
+            , delivered without a single visible crack.
+          </p>
+
+          {/* Line 3 */}
+          <div
+            className="transition-opacity duration-700"
+            style={{ opacity: line3Opacity, marginTop: "-0.5em" }}
+          >
+            <p className="display text-[clamp(1.8rem,5vw,2.8rem)] text-cream">
+              Harnessing deep expertise across tourism, events and strategic marketing in Aotearoa
+              and internationally.
+            </p>
+            <p className="eyebrow mt-8 text-cream/60">Based in Taupō, New Zealand</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Main page                                                          */
+/* ------------------------------------------------------------------ */
+
+function Index() {
+  const scrollY = useScrollY();
+
+  return (
+    <div id="top" className="bg-cream text-matte">
       <Nav />
 
-      {/* 1 — HERO */}
-      <section className="relative flex min-h-svh items-end overflow-hidden">
-        <img
-          src={heroImg}
-          alt="Guests sharing a warm moment at an elegant candlelit gala dinner"
-          width={1920}
-          height={1280}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(10,10,11,0.72) 0%, rgba(10,10,11,0.35) 40%, rgba(10,10,11,0.88) 100%)",
-          }}
-        />
-        <div className="relative mx-auto w-full max-w-[1400px] px-5 pb-16 pt-32 sm:px-8 sm:pb-24">
-          <Reveal as="p" className="eyebrow text-champagne">
-            Events &amp; Marketing — Taupō, NZ
-          </Reveal>
-          <Reveal
-            as="h1"
-            delay={80}
-            className="display mt-6 max-w-[16ch] text-cream text-[clamp(2.9rem,9vw,8.5rem)]"
+      {/* ================================================================ */}
+      {/* 1 — HERO                                                         */}
+      {/* ================================================================ */}
+      <section className="relative flex min-h-[calc(100vh-78px)] flex-col md:flex-row sm:min-h-[calc(100vh-88px)]">
+        {/* Left — text */}
+        <div className="flex flex-1 items-center bg-cream px-5 py-16 sm:px-10 md:py-0 lg:px-16 xl:px-20">
+          <div className="w-full max-w-xl">
+            <StaggeredHeadline
+              as="h1"
+              text="From concept to flawless execution."
+              underlineWord="execution"
+              className="display text-[clamp(2.6rem,7vw,5.5rem)] text-matte"
+            />
+
+            <Reveal delay={300} className="mt-6 max-w-lg">
+              <p className="text-base text-matte/65 sm:text-lg sm:leading-relaxed">
+                Event management and delivery for luxury incentive partners. Marketing strategy and
+                execution for corporate clients.
+              </p>
+            </Reveal>
+
+            <Reveal delay={380} className="mt-8 flex flex-wrap items-center gap-5">
+              <MagneticButton href="#contact">Start a project</MagneticButton>
+              <a
+                href="#experiences"
+                className="text-sm font-medium text-matte/50 underline-offset-4 transition-colors hover:text-wood hover:underline"
+              >
+                Our work &rsaquo;
+              </a>
+            </Reveal>
+          </div>
+        </div>
+
+        {/* Right — image */}
+        <div className="relative flex-1 overflow-hidden min-h-[45vh] md:min-h-0">
+          <div
+            className="absolute inset-0"
+            style={{ transform: `translate3d(0, ${scrollY * 0.25}px, 0)` }}
           >
-            From concept to <span className="text-champagne">flawless execution.</span>
-          </Reveal>
-          <Reveal
-            as="p"
-            delay={160}
-            className="mt-8 max-w-xl text-base text-cream/80 sm:text-lg"
-          >
-            Event management and delivery for luxury incentive partners. Marketing strategy and
-            execution for corporate clients.
-          </Reveal>
-          <Reveal delay={220} className="mt-10 flex flex-wrap items-center gap-6">
-            <a href="#contact" className="btn-outline text-cream">
-              Start a project ›
-            </a>
-            <a
-              href="#experiences"
-              className="text-sm text-cream/80 underline-offset-4 transition-colors hover:text-champagne hover:underline"
-            >
-              Our work ›
-            </a>
-          </Reveal>
+            <img
+              src={heroImg}
+              alt="Scenic helicopter flight over mountains and lakes"
+              className="animate-kenburns h-full w-full object-cover"
+            />
+          </div>
         </div>
       </section>
 
-      {/* 2 — STATEMENT BAND */}
-      <section className="bg-near">
-        <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-24 sm:px-8 sm:py-32 lg:grid-cols-[1.3fr_1fr] lg:items-end">
-          <Reveal
-            as="h2"
-            className="display text-cream text-[clamp(2.4rem,6.5vw,5.5rem)]"
-          >
-            Calm delivered. <span className="text-champagne">Flawlessly.</span>
-          </Reveal>
-          <Reveal as="p" delay={120} className="max-w-md text-cream/75 sm:text-lg">
-            With 16+ years across tourism, events and strategic marketing in Aotearoa and
-            internationally, I partner with organisations to turn ambitious ideas into experiences
-            that land exactly as planned — even when nothing on-site is going to plan.
-          </Reveal>
-        </div>
-      </section>
+      {/* ================================================================ */}
+      {/* 2 — INTRO STATEMENT (scroll-pinned storytelling)                  */}
+      {/* ================================================================ */}
+      <IntroSection />
 
-      {/* 3 — ABOUT */}
-      <section id="about" className="bg-cream text-ink">
-        <div className="mx-auto grid max-w-[1400px] gap-12 px-5 py-24 sm:px-8 sm:py-32 lg:grid-cols-[1fr_1fr] lg:gap-20">
-          <Reveal className="order-2 lg:order-1">
-            <p className="eyebrow text-champagne-deep">About</p>
-            <h2 className="display mt-5 max-w-[15ch] text-[clamp(2rem,4.5vw,3.6rem)]">
-              The calm in the room when everything&rsquo;s on the line.
-            </h2>
-            <div className="mt-8 max-w-xl space-y-5 text-ink/75">
-              <p>
-                I&rsquo;m Louise Toulmin. Over 16 years across tourism, events and strategic
-                marketing — in Aotearoa and further afield — I&rsquo;ve learned that the difference
-                between a good experience and an unforgettable one usually comes down to what nobody
-                sees: the detail that was quietly handled before anyone noticed it was a problem.
-              </p>
-              <p>
-                I work with destination management companies delivering luxury incentive programmes
-                where the runsheet runs to twenty pages and the expectations run higher still, and
-                with corporate clients who need marketing that&rsquo;s considered, strategic, and
-                genuinely executed — not just posted. Whatever the brief, I bring the same thing:
-                clear thinking, meticulous follow-through, and a steady hand when things don&rsquo;t
-                go to plan.
-              </p>
-              <p className="text-ink font-medium">
-                Based in Taupō, working with clients across New Zealand and beyond.
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={120} className="order-1 lg:order-2">
-            <div className="relative aspect-[4/5] w-full overflow-hidden">
-              <img
-                src={portraitImg}
-                alt="Portrait of Louise Toulmin"
-                width={1008}
-                height={1200}
-                loading="lazy"
-                className="h-full w-full object-cover grayscale"
-              />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* 4 — SERVICES */}
-      <section id="services" className="bg-near text-cream">
-        <div className="mx-auto max-w-[1400px] px-5 py-24 sm:px-8 sm:py-32">
+      {/* ================================================================ */}
+      {/* 3 — PHOTO GRID ("AS SEEN AT")                                     */}
+      {/* ================================================================ */}
+      <section className="bg-cream">
+        <div className="mx-auto max-w-[1440px] px-5 py-24 sm:px-8 sm:py-32">
           <Reveal>
-            <p className="eyebrow text-champagne">Services</p>
-            <h2 className="display mt-5 text-[clamp(2.2rem,6vw,5rem)]">
-              Two ways I can <span className="text-champagne">help.</span>
-            </h2>
+            <p className="eyebrow text-wood">The Calibre of Work</p>
           </Reveal>
+
+          <div className="mt-12 grid gap-4 sm:grid-cols-2">
+            <PhotoGridTile img={expIncentive} label="Vineyard Dinner" location="Central Otago" />
+            <PhotoGridTile img={expMarketing} label="Incentive Programme" location="Queenstown" />
+            <PhotoGridTile img={expCorporate} label="Corporate Gala" location="Auckland" />
+            <PhotoGridTile img={expStrategy} label="Familiarisation Tour" location="Taupō" />
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================ */}
+      {/* 4 — SERVICES                                                      */}
+      {/* ================================================================ */}
+      <section id="services" className="bg-cream">
+        <div className="mx-auto max-w-[1440px] px-5 py-24 sm:px-8 sm:py-32">
+          <Reveal>
+            <p className="eyebrow text-wood">Services</p>
+          </Reveal>
+
+          <StaggeredHeadline
+            text="Two ways I can help."
+            underlineWord="help"
+            className="display mt-5 max-w-[14ch] text-[clamp(2.2rem,6vw,4.8rem)]"
+          />
 
           <div className="mt-14 grid gap-6 lg:grid-cols-2">
             {[
@@ -280,16 +415,22 @@ function Index() {
             ].map((card, i) => (
               <Reveal
                 key={card.title}
-                delay={i * 120}
-                className="flex flex-col border border-cream/15 p-8 sm:p-10"
+                delay={i * 140}
+                className="group flex flex-col border border-matte/10 p-8 sm:p-10"
               >
-                <h3 className="display text-2xl sm:text-[1.75rem]">{card.title}</h3>
-                <p className="mt-4 text-cream/70">{card.context}</p>
-                <ul className="mt-8 space-y-3.5 border-t border-cream/10 pt-8">
+                <h3 className="display text-2xl sm:text-[1.75rem]">
+                  <span className="underline-wood underline-wood-drawn">{card.title}</span>
+                </h3>
+                <p className="mt-4 text-matte/60">{card.context}</p>
+                <div className="divider-wood mt-8" />
+                <ul className="mt-8 space-y-3.5">
                   {card.bullets.map((b) => (
-                    <li key={b} className="flex gap-3 text-sm text-cream/85">
-                      <span className="mt-2 h-px w-4 shrink-0 bg-champagne" aria-hidden="true" />
-                      <span>{b}</span>
+                    <li key={b} className="flex gap-3 text-sm text-matte/75">
+                      <span
+                        className="mt-[0.45em] h-px w-5 shrink-0 bg-wood/40"
+                        aria-hidden="true"
+                      />
+                      <span className="leading-relaxed">{b}</span>
                     </li>
                   ))}
                 </ul>
@@ -297,137 +438,146 @@ function Index() {
             ))}
           </div>
 
-          <Reveal delay={120}>
-            <p className="mt-10 text-sm text-cream/50">
+          <Reveal delay={140}>
+            <p className="mt-10 text-sm text-matte/40">
               This is senior-level strategic work — not social media management.
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* 5 — EXPERIENCES */}
-      <section id="experiences" className="bg-cream text-ink">
-        <div className="mx-auto max-w-[1400px] px-5 py-24 sm:px-8 sm:py-32">
+      {/* ================================================================ */}
+      {/* 5 — TESTIMONIALS / EXPERIENCES                                    */}
+      {/* ================================================================ */}
+      <section id="experiences" className="bg-cream">
+        <div className="mx-auto max-w-[1440px] px-5 py-24 sm:px-8 sm:py-32">
           <Reveal>
-            <p className="eyebrow text-champagne-deep">Experiences</p>
-            <h2 className="display mt-5 text-[clamp(2.2rem,6vw,5rem)]">
-              A track record built on <span className="text-champagne-deep">trust.</span>
-            </h2>
+            <p className="eyebrow text-wood">Experiences</p>
           </Reveal>
 
-          <div className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2">
-            {[
-              {
-                img: expIncentive,
-                title: "Luxury Incentive Programme",
-                line: "A multi-day incentive for an international corporate group, delivered without a single guest ever knowing what nearly went wrong.",
-              },
-              {
-                img: expMarketing,
-                title: "Destination Marketing Campaign",
-                line: "A regional tourism campaign built to convert business event buyers into repeat bookers.",
-              },
-              {
-                img: expCorporate,
-                title: "Corporate Event Delivery",
-                line: "End-to-end delivery for a corporate client event, from concept through to the last supplier invoice reconciled.",
-              },
-              {
-                img: expStrategy,
-                title: "Strategic Marketing Partnership",
-                line: "Ongoing email, social and sponsorship strategy for a corporate client who no longer thinks about it — because it's handled.",
-              },
-            ].map((tile, i) => (
-              <Reveal key={tile.title} delay={(i % 2) * 120} className="group">
-                <div className="relative aspect-[4/3] w-full overflow-hidden">
-                  <img
-                    src={tile.img}
-                    alt={tile.title}
-                    width={1000}
-                    height={750}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                  />
-                </div>
-                <h3 className="display mt-6 text-[1.6rem] sm:text-3xl">{tile.title}</h3>
-                <p className="mt-3 max-w-md text-ink/70">{tile.line}</p>
-              </Reveal>
-            ))}
+          <StaggeredHeadline
+            text="A track record built on trust."
+            underlineWord="trust"
+            className="display mt-5 max-w-[14ch] text-[clamp(2.2rem,6vw,4.8rem)]"
+          />
+
+          <div className="mt-14 overflow-x-auto scrollbar-hide snap-x snap-mandatory">
+            <div className="flex w-max gap-6 pb-4">
+              {[
+                {
+                  label: "Luxury Incentive Programme",
+                  line: "A multi-day incentive for an international corporate group, delivered without a single guest ever knowing what nearly went wrong.",
+                },
+                {
+                  label: "Destination Marketing Campaign",
+                  line: "A regional tourism campaign built to convert business event buyers into repeat bookers.",
+                },
+                {
+                  label: "Corporate Event Delivery",
+                  line: "End-to-end delivery for a corporate client event, from concept through to the last supplier invoice reconciled.",
+                },
+                {
+                  label: "Strategic Marketing Partnership",
+                  line: "Ongoing email, social and sponsorship strategy for a corporate client who no longer thinks about it — because it&rsquo;s handled.",
+                },
+              ].map((tile, i) => (
+                <Reveal
+                  key={tile.label}
+                  delay={i * 100}
+                  className="w-[300px] flex-shrink-0 snap-start sm:w-[360px]"
+                >
+                  <div className="divider-wood mb-6" />
+                  <p className="eyebrow text-wood">{tile.label}</p>
+                  <p className="mt-4 text-lg leading-relaxed text-matte/75">{tile.line}</p>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 6 — SPECTACLE MOMENT */}
-      <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden">
-        <img
-          src={spectacleImg}
-          alt=""
-          aria-hidden="true"
-          width={1920}
-          height={1088}
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-ink/55" />
-        <Reveal className="relative px-5 text-center">
-          <p className="display text-champagne text-[clamp(2.4rem,8vw,7rem)]">
-            Above the brief.
-            <br />
-            Beyond expectation.
-          </p>
-        </Reveal>
-      </section>
-
-      {/* 7 — CONTACT */}
-      <section id="contact" className="bg-ink text-cream">
-        <div className="mx-auto max-w-[1400px] px-5 py-24 sm:px-8 sm:py-32">
+      {/* ================================================================ */}
+      {/* 6 — CONTACT                                                       */}
+      {/* ================================================================ */}
+      <section id="contact" className="bg-cream">
+        <div className="mx-auto max-w-[1440px] px-5 py-24 sm:px-8 sm:py-32">
           <div className="max-w-2xl">
-            <Reveal as="p" className="eyebrow text-champagne">
-              Contact
+            <Reveal>
+              <p className="eyebrow text-wood">Contact</p>
             </Reveal>
-            <Reveal as="h2" delay={80} className="display mt-5 text-[clamp(3rem,10vw,8rem)]">
-              Let&rsquo;s <span className="text-champagne">talk.</span>
+
+            <StaggeredHeadline
+              text="Let's talk."
+              underlineWord="talk"
+              as="h2"
+              className="display mt-5 max-w-[10ch] text-[clamp(2.8rem,9vw,7rem)]"
+            />
+
+            <Reveal delay={200} className="mt-8">
+              <p className="text-lg leading-relaxed text-matte/65 sm:text-xl sm:leading-relaxed">
+                I&rsquo;d love to hear about your project. The best way to start is with a relaxed,
+                no-obligation phone or Zoom call — it&rsquo;s always easier to talk things through
+                than go back and forth over email. No pressure, just a conversation about how I
+                might be able to help.
+              </p>
             </Reveal>
-            <Reveal as="p" delay={140} className="mt-8 text-cream/75 sm:text-lg">
-              I&rsquo;d love to hear about your project. The best way to start is with a relaxed,
-              no-obligation phone or Zoom call — it&rsquo;s always easier to talk things through than
-              go back and forth over email. No pressure, just a conversation about how I might be
-              able to help.
-            </Reveal>
-            <Reveal delay={200} className="mt-10 flex flex-col gap-6">
-              <a
-                href="mailto:louise@toulminprojects.co.nz"
-                className="btn-outline self-start text-cream"
-              >
-                Start a project ›
-              </a>
-              <p className="text-sm text-cream/70">
+
+            <Reveal delay={280} className="mt-10 flex flex-col gap-5">
+              <MagneticButton href="mailto:louise@toulminprojects.co.nz">
+                Start a project
+              </MagneticButton>
+
+              <p className="text-sm text-matte/55">
                 Or send me an email:{" "}
                 <a
                   href="mailto:louise@toulminprojects.co.nz"
-                  className="text-champagne underline-offset-4 hover:underline"
+                  className="font-medium text-wood underline-offset-4 transition-colors hover:underline"
                 >
                   louise@toulminprojects.co.nz
                 </a>
               </p>
-              <p className="eyebrow text-cream/40">Based in Taupō, New Zealand</p>
+
+              <p className="eyebrow text-matte/30">Based in Taupō, New Zealand</p>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* 8 — FOOTER */}
-      <footer className="bg-ink text-cream">
-        <div className="mx-auto flex max-w-[1400px] flex-col gap-6 border-t border-cream/10 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-          <Wordmark reversed />
-          <a
-            href="#contact"
-            className="text-sm text-cream/80 transition-colors hover:text-champagne"
-          >
-            Start a project ›
+      {/* ================================================================ */}
+      {/* 7 — FOOTER                                                        */}
+      {/* ================================================================ */}
+      <footer className="bg-matte text-cream">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-5 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+          <a href="#top" className="wordmark text-cream" aria-label="Toulmin Projects — home">
+            Toulmin Projects
           </a>
-          <p className="text-xs text-cream/40">
-            © Toulmin Projects {new Date().getFullYear()}
+
+          <nav className="flex flex-wrap items-center gap-6" aria-label="Footer">
+            <a href="#about" className="text-sm text-cream/60 transition-colors hover:text-cream">
+              About
+            </a>
+            <a
+              href="#services"
+              className="text-sm text-cream/60 transition-colors hover:text-cream"
+            >
+              Services
+            </a>
+            <a
+              href="#experiences"
+              className="text-sm text-cream/60 transition-colors hover:text-cream"
+            >
+              Experiences
+            </a>
+            <a href="#contact" className="text-sm text-cream/60 transition-colors hover:text-cream">
+              Contact
+            </a>
+            <a href="#contact" className="btn-outline-light text-xs">
+              Start a project
+            </a>
+          </nav>
+
+          <p className="text-xs text-cream/30">
+            &copy; Toulmin Projects {new Date().getFullYear()}
           </p>
         </div>
       </footer>
