@@ -631,64 +631,76 @@ function Index() {
               <Reveal delay={240} className="mt-10">
                 <div className="divider-wood mb-8" />
                 <p className="eyebrow text-wood">Track Record</p>
-                <div className="mt-6 grid items-start gap-8 sm:grid-cols-[minmax(0,1fr)_minmax(0,0.75fr)] sm:gap-10">
-                  <ul className="space-y-4">
-                    {[
-                      {
-                        role: "Independent Contractor — Toulmin Projects",
-                        meta: "Feb 2025 – Present · Events & marketing consultancy",
-                      },
-                      {
-                        role: "Business Events Executive — Love Taupō",
-                        meta: "2020 – 2025 · Destination & incentive marketing",
-                      },
-                      {
-                        role: "Senior Account Manager — ID New Zealand",
-                        meta: "2015 – 2018 · Luxury corporate incentive travel",
-                      },
-                      {
-                        role: "Bachelor of Business — AUT",
-                        meta: "Double major: Marketing & Advertising",
-                      },
-                    ].map((item) => (
-                      <li key={item.role} className="flex gap-3">
-                        <span className="mt-[0.5em] h-px w-5 shrink-0 bg-wood/50" aria-hidden="true" />
-                        <span>
-                          <span className="block text-sm font-medium text-matte">{item.role}</span>
-                          <span className="block text-sm text-matte/55">{item.meta}</span>
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                <div className="mt-6 grid items-start gap-8 sm:grid-cols-[minmax(0,1fr)_minmax(0,0.72fr)] sm:gap-12">
+                  <div>
+                    <ul className="space-y-4">
+                      {[
+                        {
+                          role: "Independent Contractor — Toulmin Projects",
+                          meta: "Feb 2025 – Present · Events & marketing consultancy",
+                        },
+                        {
+                          role: "Business Events Executive — Love Taupō",
+                          meta: "2020 – 2025 · Destination & incentive marketing",
+                        },
+                        {
+                          role: "Senior Account Manager — ID New Zealand",
+                          meta: "2015 – 2018 · Luxury corporate incentive travel",
+                        },
+                        {
+                          role: "Bachelor of Business — AUT",
+                          meta: "Double major: Marketing & Advertising",
+                        },
+                      ].map((item) => (
+                        <li key={item.role} className="flex gap-3">
+                          <span
+                            className="mt-[0.5em] h-px w-5 shrink-0 bg-wood/50"
+                            aria-hidden="true"
+                          />
+                          <span>
+                            <span className="block text-sm font-medium text-matte">{item.role}</span>
+                            <span className="block text-sm text-matte/55">{item.meta}</span>
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
 
-                  <div className="tilt-target group relative aspect-[4/5] w-full overflow-hidden">
-                    <img
-                      src={founderPortrait}
-                      alt="Louise Toulmin, Founder of Toulmin Projects"
-                      loading="lazy"
-                      className="animate-kenburns-hover h-full w-full object-cover"
-                    />
+                    <a
+                      href="https://www.linkedin.com/in/louise-toulmin-ba6b9154"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline-wood underline-wood-drawn mt-8 inline-flex items-center gap-2 text-sm font-medium text-matte transition-colors hover:text-wood"
+                    >
+                      Connect with Louise on LinkedIn &rsaquo;
+                    </a>
+                  </div>
+
+                  {/* Arched, framed portrait with layered wood accent */}
+                  <div className="group relative mx-auto w-full max-w-[280px] sm:mx-0">
+                    {/* Offset wood accent frame */}
                     <div
-                      className="absolute inset-0 bg-gradient-to-t from-wood/25 via-transparent to-transparent mix-blend-multiply"
+                      className="absolute -bottom-3 -right-3 h-full w-full rounded-t-[130px] rounded-b-2xl border border-wood/40 transition-transform duration-500 ease-out group-hover:-translate-x-1 group-hover:-translate-y-1"
                       aria-hidden="true"
                     />
-                    <div
-                      className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-wood/20"
-                      aria-hidden="true"
-                    />
+                    {/* Portrait */}
+                    <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-[130px] rounded-b-2xl shadow-[0_18px_40px_-18px_rgba(107,70,48,0.55)] ring-1 ring-wood/15">
+                      <img
+                        src={founderPortrait}
+                        alt="Louise Toulmin, Founder of Toulmin Projects"
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-105"
+                      />
+                      <div
+                        className="absolute inset-0 bg-gradient-to-t from-wood/30 via-transparent to-transparent mix-blend-multiply"
+                        aria-hidden="true"
+                      />
+                      <div
+                        className="pointer-events-none absolute inset-2 rounded-t-[120px] rounded-b-xl ring-1 ring-inset ring-cream/25"
+                        aria-hidden="true"
+                      />
+                    </div>
                   </div>
                 </div>
-              </Reveal>
-
-              <Reveal delay={320} className="mt-10">
-                <a
-                  href="https://www.linkedin.com/in/louise-toulmin-ba6b9154"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline-wood underline-wood-drawn inline-flex items-center gap-2 text-sm font-medium text-matte transition-colors hover:text-wood"
-                >
-                  Connect with Louise on LinkedIn &rsaquo;
-                </a>
               </Reveal>
             </div>
           </div>
