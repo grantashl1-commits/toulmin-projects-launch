@@ -8,6 +8,7 @@ import { AnimatedCounter } from "@/components/AnimatedCounter";
 
 import heroImg from "@/assets/hero.jpg";
 import statementImg from "@/assets/statement.jpg";
+import logoFooter from "@/assets/logo-footer.png";
 import spectacleImg from "@/assets/spectacle.jpg";
 import expIncentive from "@/assets/exp-incentive.jpg";
 import expMarketing from "@/assets/exp-marketing.jpg";
@@ -257,7 +258,8 @@ function IntroSection() {
             className="display text-[clamp(2rem,5.5vw,3.6rem)] text-cream transition-opacity duration-700"
             style={{ opacity: line1Opacity }}
           >
-            Sixteen years. Still obsessed with the <span className="word-wood-light">details.</span>
+            Sixteen years in the field. Still obsessed with the{" "}
+            <span className="word-wood-light">details.</span>
           </p>
 
           {/* Line 2 */}
@@ -271,8 +273,9 @@ function IntroSection() {
               suffix="+ years"
               start={showCounter}
               className="tabular-nums"
-            />
-            . Not a single <span className="word-wood-light">hair out of place.</span>
+            />{" "}
+            of turning good ideas into moments that{" "}
+            <span className="word-wood-light">land.</span>
           </p>
 
           {/* Line 3 */}
@@ -281,7 +284,7 @@ function IntroSection() {
             style={{ opacity: line3Opacity }}
           >
             <p className="display text-[clamp(2rem,5.5vw,3.6rem)] text-cream">
-              Deep in the weeds of tourism, events and{" "}
+              Toulmin Projects works across tourism, events and{" "}
               <span className="word-wood-light">strategic marketing</span> — here in Aotearoa and
               well beyond it.
             </p>
@@ -351,8 +354,8 @@ function Index() {
 
           <Reveal delay={300} className="mt-7 max-w-xl">
             <p className="text-base text-cream/70 sm:text-lg sm:leading-relaxed">
-              I design and deliver events that people actually talk about afterwards — and build
-              marketing strategies that do more than just look nice in a slide deck.
+              Toulmin Projects designs and delivers events people talk about long after the lights go
+              down — and marketing strategies built to do more than look good in a slide deck.
             </p>
           </Reveal>
 
@@ -435,8 +438,8 @@ function Index() {
           </Reveal>
           <Reveal delay={240}>
             <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-cream/70 sm:text-lg">
-              One person. The thoroughness of an agency. The accountability of someone whose name is
-              on the door.
+              A boutique studio with the thoroughness of a full agency — and the accountability of a
+              name on the door.
             </p>
           </Reveal>
         </div>
@@ -452,8 +455,8 @@ function Index() {
           </Reveal>
 
           <StaggeredHeadline
-            text="Here's what I'm good at."
-            highlightWords={["good"]}
+            text="What we do best."
+            highlightWords={["best."]}
             className="display mt-5 max-w-[14ch] text-[clamp(2.2rem,6vw,5rem)]"
           />
 
@@ -462,7 +465,7 @@ function Index() {
               {
                 title: "Event Management & Delivery",
                 context:
-                  "For DMCs and luxury incentive partners who need someone on the ground who actually knows New Zealand — not just reads about it.",
+                  "For DMCs and luxury incentive partners who need a New Zealand specialist on the ground — someone who knows the country first-hand, not just from a brochure.",
                 bullets: [
                   "Luxury incentive programmes & corporate events",
                   "End-to-end logistics & supplier management",
@@ -474,7 +477,7 @@ function Index() {
               {
                 title: "Marketing Strategy & Execution",
                 context:
-                  "For corporate clients who need marketing that moves the needle — not just fills the calendar with colour.",
+                  "For corporate clients who want marketing that moves the needle — not just fills the calendar with colour.",
                 bullets: [
                   "Marketing strategy & planning",
                   "Email marketing & campaign implementation",
@@ -546,7 +549,7 @@ function Index() {
               },
               {
                 label: "Corporate Event Delivery",
-                line: "Concept to the last supplier invoice reconciled. The client showed up and looked good. I handled everything else.",
+                line: "Concept to the last supplier invoice reconciled. The client showed up and looked good. We handled everything else.",
               },
               {
                 label: "Strategic Marketing Partnership",
@@ -569,6 +572,112 @@ function Index() {
       </section>
 
       {/* ================================================================ */}
+      {/* 7 — FOUNDER (light)                                               */}
+      {/* ================================================================ */}
+      <section id="founder" className="bg-cream">
+        <div className="mx-auto max-w-[1440px] px-5 py-24 sm:px-8 sm:py-32">
+          <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-20">
+            {/* Image */}
+            <Reveal className="lg:sticky lg:top-28">
+              <div className="tilt-target group relative aspect-[4/5] w-full overflow-hidden">
+                <img
+                  src={statementImg}
+                  alt="New Zealand high-country landscape at golden hour"
+                  loading="lazy"
+                  className="animate-kenburns-hover h-full w-full object-cover"
+                />
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-matte/70 via-matte/5 to-transparent"
+                  aria-hidden="true"
+                />
+                <div className="absolute inset-x-0 bottom-0 p-6">
+                  <p className="eyebrow text-wood-light">Founder</p>
+                  <p className="display mt-1 text-2xl leading-tight text-cream sm:text-3xl">
+                    Louise Toulmin
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Text */}
+            <div>
+              <Reveal>
+                <p className="eyebrow text-wood">The Person Behind the Projects</p>
+              </Reveal>
+
+              <StaggeredHeadline
+                text="Founder-led, from first call to final invoice."
+                highlightWords={["Founder-led,"]}
+                className="display mt-5 max-w-[16ch] text-[clamp(1.9rem,4.5vw,3.4rem)]"
+              />
+
+              <Reveal delay={160} className="mt-8 space-y-5 text-matte/70">
+                <p className="text-lg leading-relaxed">
+                  Toulmin Projects is led by <span className="font-medium text-matte">Louise Toulmin</span>,
+                  an independent events and marketing specialist who helps good ideas take off and
+                  memorable experiences come to life. With 16+ years across tourism, events and
+                  strategic marketing in Aotearoa and beyond, she partners with organisations to deliver
+                  high-quality events, luxury incentive programmes and marketing that creates lasting
+                  impact.
+                </p>
+                <p className="leading-relaxed">
+                  From big-picture planning through to seamless delivery, Louise brings energy, fresh
+                  thinking and calm confidence to every project — turning ideas into well-executed
+                  outcomes clients are proud to put their name to.
+                </p>
+              </Reveal>
+
+              <Reveal delay={240} className="mt-10">
+                <div className="divider-wood mb-8" />
+                <p className="eyebrow text-wood">Track Record</p>
+                <ul className="mt-6 space-y-4">
+                  {[
+                    {
+                      role: "Independent Contractor — Toulmin Projects",
+                      meta: "Feb 2025 – Present · Events & marketing consultancy",
+                    },
+                    {
+                      role: "Business Events Executive — Love Taupō",
+                      meta: "2020 – 2025 · Destination & incentive marketing",
+                    },
+                    {
+                      role: "Senior Account Manager — ID New Zealand",
+                      meta: "2015 – 2018 · Luxury corporate incentive travel",
+                    },
+                    {
+                      role: "Bachelor of Business — AUT",
+                      meta: "Double major: Marketing & Advertising",
+                    },
+                  ].map((item) => (
+                    <li key={item.role} className="flex gap-3">
+                      <span className="mt-[0.5em] h-px w-5 shrink-0 bg-wood/50" aria-hidden="true" />
+                      <span>
+                        <span className="block text-sm font-medium text-matte">{item.role}</span>
+                        <span className="block text-sm text-matte/55">{item.meta}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+
+              <Reveal delay={320} className="mt-10">
+                <a
+                  href="https://www.linkedin.com/in/louise-toulmin-ba6b9154"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline-wood underline-wood-drawn inline-flex items-center gap-2 text-sm font-medium text-matte transition-colors hover:text-wood"
+                >
+                  Connect with Louise on LinkedIn &rsaquo;
+                </a>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+      {/* ================================================================ */}
       {/* 7 — CONTACT (light)                                               */}
       {/* ================================================================ */}
       <section id="contact" className="bg-cream">
@@ -587,15 +696,16 @@ function Index() {
 
             <Reveal delay={200} className="mt-8">
               <p className="text-lg leading-relaxed text-matte/65 sm:text-xl sm:leading-relaxed">
-                Tell me what you&rsquo;re working on. I&rsquo;ll tell you honestly whether I&rsquo;m the right fit
-                — and if I&rsquo;m not, I&rsquo;ll probably know someone who is. Best way to find out is a
-                quick phone or Zoom call. No pitch decks, no obligation, just a proper conversation.
+                Tell us what you&rsquo;re working on. We&rsquo;ll tell you honestly whether we&rsquo;re
+                the right fit — and if we&rsquo;re not, we&rsquo;ll happily point you to someone who is.
+                The best place to start is a quick phone or Zoom call. No pitch decks, no obligation —
+                just a proper conversation.
               </p>
             </Reveal>
 
             <Reveal delay={280} className="mt-10 flex flex-col gap-5">
               <p className="text-sm text-matte/55">
-                Drop me a line:{" "}
+                Drop us a line:{" "}
                 <a
                   href="mailto:louise@toulminprojects.co.nz"
                   className="font-medium text-wood underline-offset-4 transition-colors hover:underline"
@@ -615,8 +725,15 @@ function Index() {
       {/* ================================================================ */}
       <footer className="bg-matte text-cream">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-5 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-          <a href="#top" className="wordmark text-cream" aria-label="Toulmin Projects — home">
-            Toulmin Projects
+          <a href="#top" className="inline-block leading-none" aria-label="Toulmin Projects — home">
+            <img
+              src={logoFooter}
+              alt="Toulmin Projects"
+              width={1280}
+              height={512}
+              loading="lazy"
+              className="h-11 w-auto sm:h-14"
+            />
           </a>
 
           <nav className="flex flex-wrap items-center gap-6" aria-label="Footer">
