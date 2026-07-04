@@ -435,8 +435,8 @@ function Index() {
           </Reveal>
           <Reveal delay={240}>
             <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-cream/70 sm:text-lg">
-              One highly capable person with the confidence and scale of a proper agency — every
-              detail anticipated, nothing left to chance.
+              One person. The thoroughness of an agency. The accountability of someone whose name is
+              on the door.
             </p>
           </Reveal>
         </div>
