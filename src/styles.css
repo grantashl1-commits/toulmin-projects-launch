@@ -44,17 +44,19 @@
 
   --color-cream: var(--tp-cream);
   --color-wood: var(--tp-wood);
+  --color-wood-light: var(--tp-wood-light);
   --color-matte: var(--tp-matte);
   --color-gloss: var(--tp-gloss);
 
   --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", Georgia, serif;
+  --font-serif: "Fraunces", Georgia, serif;
 }
 
 :root {
   --radius: 0.25rem;
   --tp-cream: #efe8da;
   --tp-wood: #6b4630;
+  --tp-wood-light: #bd8a5e;
   --tp-matte: #17181a;
   --tp-gloss: #0a0a0a;
 
@@ -113,11 +115,46 @@
 }
 
 @utility display {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-weight: 600;
-  line-height: 1.06;
-  letter-spacing: -0.015em;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  font-optical-sizing: auto;
   text-wrap: balance;
+}
+
+/* Colour lives INSIDE the words — wood-grain keyword highlight */
+@utility word-wood {
+  background-image: linear-gradient(
+    100deg,
+    #7a5236 0%,
+    #6b4630 28%,
+    #4c3120 52%,
+    #8a5c3c 78%,
+    #6b4630 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--tp-wood);
+  font-style: italic;
+}
+
+/* Lighter caramel wood — keyword highlight on dark bands */
+@utility word-wood-light {
+  background-image: linear-gradient(
+    100deg,
+    #d6a271 0%,
+    #bd8a5e 30%,
+    #a06f45 55%,
+    #e0b483 82%,
+    #bd8a5e 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--tp-wood-light);
+  font-style: italic;
 }
 
 @utility eyebrow {
@@ -330,7 +367,28 @@
     );
 }
 
-/* ===== TILT ON HOVER ===== */
+/* ===== SPECTACLE MOMENT — gilded wood lettering ===== */
+
+@utility spectacle-type {
+  font-family: var(--font-serif);
+  font-weight: 900;
+  font-optical-sizing: auto;
+  line-height: 0.9;
+  letter-spacing: -0.005em;
+  background-image: linear-gradient(
+    120deg,
+    #e7c79a 0%,
+    #cf9f65 22%,
+    #f3ddb5 40%,
+    #c68f52 60%,
+    #e7c79a 82%,
+    #c68f52 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 1px 40px rgba(0, 0, 0, 0.35);
+}
 
 @utility tilt-target {
   transform-style: preserve-3d;
