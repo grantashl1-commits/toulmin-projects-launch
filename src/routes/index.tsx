@@ -438,8 +438,8 @@ function Index() {
           </Reveal>
           <Reveal delay={240}>
             <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-cream/70 sm:text-lg">
-              One person. The thoroughness of an agency. The accountability of someone whose name is
-              on the door.
+              A boutique studio with the thoroughness of a full agency — and the accountability of a
+              name on the door.
             </p>
           </Reveal>
         </div>
