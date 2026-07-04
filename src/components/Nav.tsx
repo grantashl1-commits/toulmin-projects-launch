@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { MagneticButton } from "./MagneticButton";
+import logoHeader from "@/assets/logo-header.png";
 
 const NAV_LINKS = [
   { label: "About", href: "#about" },
@@ -16,14 +17,20 @@ const TICKER_ITEMS = [
   "16+ YEARS' EXPERIENCE",
 ];
 
-function Wordmark({ reversed = false }: { reversed?: boolean }) {
+function Wordmark() {
   return (
     <a
       href="#top"
-      className={`inline-block leading-none ${reversed ? "text-cream" : "text-matte"}`}
+      className="inline-block leading-none"
       aria-label="Toulmin Projects — home"
     >
-      <span className="wordmark block">Toulmin Projects</span>
+      <img
+        src={logoHeader}
+        alt="Toulmin Projects"
+        width={1280}
+        height={512}
+        className="h-9 w-auto sm:h-11"
+      />
     </a>
   );
 }
