@@ -426,10 +426,12 @@ function Index() {
             <p className="eyebrow text-cream/70">The Toulmin Standard</p>
           </Reveal>
           <Reveal delay={120}>
-            <h2 className="spectacle-type mt-6 text-[clamp(3.4rem,14vw,11rem)] uppercase">
-              Above
-              <span className="mx-[0.12em] italic lowercase font-normal opacity-90">&amp;</span>
-              Beyond
+            <h2 className="spectacle-type mt-6 text-[clamp(3rem,13vw,10rem)] uppercase leading-[0.86]">
+              <span className="block">
+                Above
+                <span className="italic lowercase font-normal opacity-90"> &amp; </span>
+              </span>
+              <span className="block">Beyond</span>
             </h2>
           </Reveal>
           <Reveal delay={240}>
