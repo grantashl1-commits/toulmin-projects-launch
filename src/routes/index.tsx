@@ -619,8 +619,15 @@ function Index() {
       {/* ================================================================ */}
       <footer className="bg-matte text-cream">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-5 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-          <a href="#top" className="wordmark text-cream" aria-label="Toulmin Projects — home">
-            Toulmin Projects
+          <a href="#top" className="inline-block leading-none" aria-label="Toulmin Projects — home">
+            <img
+              src={logoFooter}
+              alt="Toulmin Projects"
+              width={1280}
+              height={512}
+              loading="lazy"
+              className="h-11 w-auto sm:h-14"
+            />
           </a>
 
           <nav className="flex flex-wrap items-center gap-6" aria-label="Footer">
