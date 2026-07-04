@@ -536,22 +536,22 @@ function Index() {
           <div className="mt-14 overflow-x-auto scrollbar-hide snap-x snap-mandatory">
             <div className="flex w-max gap-8 pb-4">
               {[
-                {
-                  label: "Luxury Incentive Programme",
-                  line: "A multi-day incentive for an international corporate group, delivered without a single guest ever knowing what nearly went wrong.",
-                },
-                {
-                  label: "Destination Marketing Campaign",
-                  line: "A regional tourism campaign built to convert business event buyers into repeat bookers.",
-                },
-                {
-                  label: "Corporate Event Delivery",
-                  line: "End-to-end delivery for a corporate client event, from concept through to the last supplier invoice reconciled.",
-                },
-                {
-                  label: "Strategic Marketing Partnership",
-                  line: "Ongoing email, social and sponsorship strategy for a corporate client who no longer thinks about it — because it\u2019s handled.",
-                },
+              {
+                label: "Luxury Incentive Programme",
+                line: "A multi-day incentive for an international corporate group. The guests never knew what nearly went wrong — because it didn't.",
+              },
+              {
+                label: "Destination Marketing Campaign",
+                line: "A regional tourism campaign that turned business event browsers into repeat bookers. Strategy first, pretty pictures second.",
+              },
+              {
+                label: "Corporate Event Delivery",
+                line: "Concept to the last supplier invoice reconciled. The client showed up and looked good. I handled everything else.",
+              },
+              {
+                label: "Strategic Marketing Partnership",
+                line: "Ongoing email, social and sponsorship strategy for a client who no longer thinks about marketing — because it's already working.",
+              },
               ].map((tile, i) => (
                 <Reveal
                   key={tile.label}
