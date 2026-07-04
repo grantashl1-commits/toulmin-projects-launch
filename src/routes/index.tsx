@@ -67,27 +67,36 @@ function useIntersectionWords(ref: React.RefObject<HTMLElement | null>) {
 
 interface StaggeredHeadlineProps {
   text: string;
-  underlineWord?: string;
+  underlineWords?: string[];
   as?: "h1" | "h2";
   className?: string;
 }
 
 function StaggeredHeadline({
   text,
-  underlineWord,
+  underlineWords = [],
   as: Tag = "h2",
   className = "",
 }: StaggeredHeadlineProps) {
   const containerRef = useRef<HTMLHeadingElement>(null);
   const inView = useIntersectionWords(containerRef);
+  const [underlinesShown, setUnderlinesShown] = useState(false);
   const words = text.split(" ");
+
+  useEffect(() => {
+    if (inView) {
+      const timer = setTimeout(() => setUnderlinesShown(true), 550);
+      return () => clearTimeout(timer);
+    }
+  }, [inView]);
 
   return (
     <Tag ref={containerRef as React.RefObject<HTMLHeadingElement>} className={className}>
       {words.map((word, i) => {
         const wordCleaned = word.toLowerCase().replace(/[^a-z]/g, "");
-        const matchCleaned = (underlineWord ?? "").toLowerCase().replace(/[^a-z]/g, "");
-        const isUnderlined = underlineWord && wordCleaned === matchCleaned;
+        const isUnderlined = underlineWords.some(
+          (uw) => wordCleaned === uw.toLowerCase().replace(/[^a-z]/g, ""),
+        );
 
         return (
           <span
@@ -96,7 +105,7 @@ function StaggeredHeadline({
             style={{ transitionDelay: `${i * 65}ms` }}
           >
             {isUnderlined ? (
-              <span className={`underline-wood ${inView ? "underline-wood-drawn" : ""}`}>
+              <span className={`underline-wood ${underlinesShown ? "underline-wood-drawn" : ""}`}>
                 {word.replace(/[.,;:!?]$/, "")}
               </span>
             ) : (
@@ -310,7 +319,7 @@ function Index() {
             <StaggeredHeadline
               as="h1"
               text="From concept to flawless execution."
-              underlineWord="execution"
+              underlineWords={["flawless", "execution"]}
               className="display text-[clamp(2.6rem,7vw,5.5rem)] text-matte"
             />
 
@@ -382,7 +391,7 @@ function Index() {
 
           <StaggeredHeadline
             text="Two ways I can help."
-            underlineWord="help"
+            underlineWords={["help"]}
             className="display mt-5 max-w-[14ch] text-[clamp(2.2rem,6vw,4.8rem)]"
           />
 
@@ -457,7 +466,7 @@ function Index() {
 
           <StaggeredHeadline
             text="A track record built on trust."
-            underlineWord="trust"
+            underlineWords={["trust"]}
             className="display mt-5 max-w-[14ch] text-[clamp(2.2rem,6vw,4.8rem)]"
           />
 
@@ -508,7 +517,7 @@ function Index() {
 
             <StaggeredHeadline
               text="Let's talk."
-              underlineWord="talk"
+              underlineWords={["talk"]}
               as="h2"
               className="display mt-5 max-w-[10ch] text-[clamp(2.8rem,9vw,7rem)]"
             />
