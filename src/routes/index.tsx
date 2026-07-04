@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { Fragment, useEffect, useState, useRef, useCallback } from "react";
 
 import { Reveal } from "@/components/Reveal";
 import { Nav } from "@/components/Nav";
@@ -7,7 +7,7 @@ import { MagneticButton } from "@/components/MagneticButton";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 
 import heroImg from "@/assets/hero.jpg";
-import spectacleImg from "@/assets/spectacle.jpg";
+import statementImg from "@/assets/statement.jpg";
 import expIncentive from "@/assets/exp-incentive.jpg";
 import expMarketing from "@/assets/exp-marketing.jpg";
 import expCorporate from "@/assets/exp-corporate.jpg";
