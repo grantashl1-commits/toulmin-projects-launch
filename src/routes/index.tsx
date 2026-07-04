@@ -452,8 +452,8 @@ function Index() {
           </Reveal>
 
           <StaggeredHeadline
-            text="Two ways I can help."
-            highlightWords={["help."]}
+            text="Here's what I'm good at."
+            highlightWords={["good"]}
             className="display mt-5 max-w-[14ch] text-[clamp(2.2rem,6vw,5rem)]"
           />
 
@@ -462,23 +462,23 @@ function Index() {
               {
                 title: "Event Management & Delivery",
                 context:
-                  "For DMCs and luxury incentive partners who need an expert on the ground in New Zealand.",
+                  "For DMCs and luxury incentive partners who need someone on the ground who actually knows New Zealand — not just reads about it.",
                 bullets: [
                   "Luxury incentive programmes & corporate events",
                   "End-to-end logistics & supplier management",
                   "Bespoke familiarisation programmes",
                   "On-site delivery & leadership",
-                  "Twenty-page runsheets, handled with meticulous care",
+                  "Runsheets thick enough to stop a door. Every page accounted for.",
                 ],
               },
               {
                 title: "Marketing Strategy & Execution",
                 context:
-                  "For corporate clients who need strategic marketing delivered with clarity and maturity.",
+                  "For corporate clients who need marketing that moves the needle — not just fills the calendar with colour.",
                 bullets: [
                   "Marketing strategy & planning",
                   "Email marketing & campaign implementation",
-                  "Social marketing aligned to business goals",
+                  "Social marketing aligned to actual business goals",
                   "Partnership, sponsorship & charity packages",
                   "Stakeholder liaison & brand collateral",
                 ],
@@ -511,7 +511,7 @@ function Index() {
 
           <Reveal delay={140}>
             <p className="mt-10 text-sm text-matte/40">
-              This is senior-level strategic work — not social media management.
+              Senior-level strategy and delivery — not posting pretty pictures and hoping for likes.
             </p>
           </Reveal>
         </div>
