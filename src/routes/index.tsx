@@ -393,8 +393,8 @@ function Index() {
 
         <div className="mt-14 grid grid-cols-2 gap-1 sm:gap-1.5 lg:grid-cols-4">
           <PhotoGridTile img={expIncentive} label="Alpine Incentive" location="Queenstown" />
-          <PhotoGridTile img={statementImg} label="Vineyard Long-Table" location="Central Otago" />
           <PhotoGridTile img={expMarketing} label="Lakeside Gala" location="Lake Wānaka" />
+          <PhotoGridTile img={expCorporate} label="Corporate Showcase" location="Southern Alps" />
           <PhotoGridTile img={expStrategy} label="Familiarisation Tour" location="Taupō" />
         </div>
       </section>
