@@ -257,7 +257,7 @@ function IntroSection() {
             className="display text-[clamp(2rem,5.5vw,3.6rem)] text-cream transition-opacity duration-700"
             style={{ opacity: line1Opacity }}
           >
-            Sixteen years of <span className="word-wood-light">experience.</span>
+            Sixteen years. Still obsessed with the <span className="word-wood-light">details.</span>
           </p>
 
           {/* Line 2 */}
@@ -272,8 +272,7 @@ function IntroSection() {
               start={showCounter}
               className="tabular-nums"
             />
-            , delivered without a single{" "}
-            <span className="word-wood-light">visible crack.</span>
+            . Not a single <span className="word-wood-light">hair out of place.</span>
           </p>
 
           {/* Line 3 */}
@@ -282,9 +281,9 @@ function IntroSection() {
             style={{ opacity: line3Opacity }}
           >
             <p className="display text-[clamp(2rem,5.5vw,3.6rem)] text-cream">
-              Deep expertise across tourism, events and{" "}
-              <span className="word-wood-light">strategic marketing</span> in Aotearoa and
-              internationally.
+              Deep in the weeds of tourism, events and{" "}
+              <span className="word-wood-light">strategic marketing</span> — here in Aotearoa and
+              well beyond it.
             </p>
             <p className="eyebrow mt-10 text-cream/50">Based in Taupō, New Zealand</p>
           </div>
