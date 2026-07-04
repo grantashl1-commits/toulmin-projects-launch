@@ -456,7 +456,7 @@ function Index() {
 
           <StaggeredHeadline
             text="What we do best."
-            highlightWords={["good"]}
+            highlightWords={["best."]}
             className="display mt-5 max-w-[14ch] text-[clamp(2.2rem,6vw,5rem)]"
           />
 
