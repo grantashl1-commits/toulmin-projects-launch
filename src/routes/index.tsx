@@ -549,7 +549,7 @@ function Index() {
               },
               {
                 label: "Corporate Event Delivery",
-                line: "Concept to the last supplier invoice reconciled. The client showed up and looked good. I handled everything else.",
+                line: "Concept to the last supplier invoice reconciled. The client showed up and looked good. We handled everything else.",
               },
               {
                 label: "Strategic Marketing Partnership",
