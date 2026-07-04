@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import { MagneticButton } from "./MagneticButton";
 import logoHeader from "@/assets/logo-header.png";
 
 const NAV_LINKS = [
