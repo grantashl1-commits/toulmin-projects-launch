@@ -258,7 +258,8 @@ function IntroSection() {
             className="display text-[clamp(2rem,5.5vw,3.6rem)] text-cream transition-opacity duration-700"
             style={{ opacity: line1Opacity }}
           >
-            Sixteen years. Still obsessed with the <span className="word-wood-light">details.</span>
+            Sixteen years in the field. Still obsessed with the{" "}
+            <span className="word-wood-light">details.</span>
           </p>
 
           {/* Line 2 */}
@@ -272,8 +273,9 @@ function IntroSection() {
               suffix="+ years"
               start={showCounter}
               className="tabular-nums"
-            />
-            . Not a single <span className="word-wood-light">hair out of place.</span>
+            />{" "}
+            of turning good ideas into moments that{" "}
+            <span className="word-wood-light">land.</span>
           </p>
 
           {/* Line 3 */}
@@ -282,7 +284,7 @@ function IntroSection() {
             style={{ opacity: line3Opacity }}
           >
             <p className="display text-[clamp(2rem,5.5vw,3.6rem)] text-cream">
-              Deep in the weeds of tourism, events and{" "}
+              Toulmin Projects works across tourism, events and{" "}
               <span className="word-wood-light">strategic marketing</span> — here in Aotearoa and
               well beyond it.
             </p>
