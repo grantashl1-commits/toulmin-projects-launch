@@ -590,15 +590,16 @@ function Index() {
 
             <Reveal delay={200} className="mt-8">
               <p className="text-lg leading-relaxed text-matte/65 sm:text-xl sm:leading-relaxed">
-                Tell me what you&rsquo;re working on. I&rsquo;ll tell you honestly whether I&rsquo;m the right fit
-                — and if I&rsquo;m not, I&rsquo;ll probably know someone who is. Best way to find out is a
-                quick phone or Zoom call. No pitch decks, no obligation, just a proper conversation.
+                Tell us what you&rsquo;re working on. We&rsquo;ll tell you honestly whether we&rsquo;re
+                the right fit — and if we&rsquo;re not, we&rsquo;ll happily point you to someone who is.
+                The best place to start is a quick phone or Zoom call. No pitch decks, no obligation —
+                just a proper conversation.
               </p>
             </Reveal>
 
             <Reveal delay={280} className="mt-10 flex flex-col gap-5">
               <p className="text-sm text-matte/55">
-                Drop me a line:{" "}
+                Drop us a line:{" "}
                 <a
                   href="mailto:louise@toulminprojects.co.nz"
                   className="font-medium text-wood underline-offset-4 transition-colors hover:underline"
