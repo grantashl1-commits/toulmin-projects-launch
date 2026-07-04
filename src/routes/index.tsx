@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { Fragment, useEffect, useState, useRef, useCallback } from "react";
 
 import { Reveal } from "@/components/Reveal";
 import { Nav } from "@/components/Nav";
@@ -7,7 +7,7 @@ import { MagneticButton } from "@/components/MagneticButton";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 
 import heroImg from "@/assets/hero.jpg";
-import spectacleImg from "@/assets/spectacle.jpg";
+import statementImg from "@/assets/statement.jpg";
 import expIncentive from "@/assets/exp-incentive.jpg";
 import expMarketing from "@/assets/exp-marketing.jpg";
 import expCorporate from "@/assets/exp-corporate.jpg";
@@ -99,19 +99,20 @@ function StaggeredHeadline({
         );
 
         return (
-          <span
-            key={i}
-            className={`reveal-word ${inView ? "reveal-word-in" : ""}`}
-            style={{ transitionDelay: `${i * 65}ms` }}
-          >
-            {isUnderlined ? (
-              <span className={`underline-wood ${underlinesShown ? "underline-wood-drawn" : ""}`}>
-                {word.replace(/[.,;:!?]$/, "")}
-              </span>
-            ) : (
-              word
-            )}{" "}
-          </span>
+          <Fragment key={i}>
+            <span
+              className={`reveal-word ${inView ? "reveal-word-in" : ""}`}
+              style={{ transitionDelay: `${i * 65}ms` }}
+            >
+              {isUnderlined ? (
+                <span className={`underline-wood ${underlinesShown ? "underline-wood-drawn" : ""}`}>
+                  {word.replace(/[.,;:!?]$/, "")}
+                </span>
+              ) : (
+                word
+              )}
+            </span>{" "}
+          </Fragment>
         );
       })}
     </Tag>
@@ -248,7 +249,7 @@ function IntroSection() {
         {/* Background */}
         <div className="absolute inset-0">
           <img
-            src={spectacleImg}
+            src={statementImg}
             alt=""
             aria-hidden="true"
             className="animate-kenburns h-full w-full object-cover"
