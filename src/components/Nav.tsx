@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import { MagneticButton } from "./MagneticButton";
 import logoHeader from "@/assets/logo-header.png";
 
 const NAV_LINKS = [
@@ -93,7 +92,6 @@ export function Nav() {
                 {l.label}
               </a>
             ))}
-            <MagneticButton href="#contact">Start a project</MagneticButton>
           </nav>
 
           <button
@@ -139,13 +137,6 @@ export function Nav() {
                 {l.label}
               </a>
             ))}
-            <a
-              href="#contact"
-              onClick={() => setOpen(false)}
-              className="btn-outline mt-4 self-start"
-            >
-              Start a project
-            </a>
           </nav>
         </div>
       </header>
