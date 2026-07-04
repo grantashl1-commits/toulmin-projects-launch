@@ -99,19 +99,20 @@ function StaggeredHeadline({
         );
 
         return (
-          <span
-            key={i}
-            className={`reveal-word ${inView ? "reveal-word-in" : ""}`}
-            style={{ transitionDelay: `${i * 65}ms` }}
-          >
-            {isUnderlined ? (
-              <span className={`underline-wood ${underlinesShown ? "underline-wood-drawn" : ""}`}>
-                {word.replace(/[.,;:!?]$/, "")}
-              </span>
-            ) : (
-              word
-            )}{" "}
-          </span>
+          <Fragment key={i}>
+            <span
+              className={`reveal-word ${inView ? "reveal-word-in" : ""}`}
+              style={{ transitionDelay: `${i * 65}ms` }}
+            >
+              {isUnderlined ? (
+                <span className={`underline-wood ${underlinesShown ? "underline-wood-drawn" : ""}`}>
+                  {word.replace(/[.,;:!?]$/, "")}
+                </span>
+              ) : (
+                word
+              )}
+            </span>{" "}
+          </Fragment>
         );
       })}
     </Tag>
