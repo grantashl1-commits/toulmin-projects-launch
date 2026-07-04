@@ -8,6 +8,7 @@ import { AnimatedCounter } from "@/components/AnimatedCounter";
 
 import heroImg from "@/assets/hero.jpg";
 import statementImg from "@/assets/statement.jpg";
+import spectacleImg from "@/assets/spectacle.jpg";
 import expIncentive from "@/assets/exp-incentive.jpg";
 import expMarketing from "@/assets/exp-marketing.jpg";
 import expCorporate from "@/assets/exp-corporate.jpg";
@@ -52,7 +53,7 @@ function useIntersectionWords(ref: React.RefObject<HTMLElement | null>) {
           observer.disconnect();
         }
       },
-      { threshold: 0.25 },
+      { threshold: 0.2 },
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -62,39 +63,35 @@ function useIntersectionWords(ref: React.RefObject<HTMLElement | null>) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Staggered headline — word-by-word reveal                           */
+/*  Staggered headline — word-by-word reveal, colour inside the words  */
 /* ------------------------------------------------------------------ */
 
 interface StaggeredHeadlineProps {
   text: string;
-  underlineWords?: string[];
+  highlightWords?: string[];
+  /** Use the caramel wood tone (for dark bands) */
+  light?: boolean;
   as?: "h1" | "h2";
   className?: string;
 }
 
 function StaggeredHeadline({
   text,
-  underlineWords = [],
+  highlightWords = [],
+  light = false,
   as: Tag = "h2",
   className = "",
 }: StaggeredHeadlineProps) {
   const containerRef = useRef<HTMLHeadingElement>(null);
   const inView = useIntersectionWords(containerRef);
-  const [underlinesShown, setUnderlinesShown] = useState(false);
   const words = text.split(" ");
-
-  useEffect(() => {
-    if (inView) {
-      const timer = setTimeout(() => setUnderlinesShown(true), 550);
-      return () => clearTimeout(timer);
-    }
-  }, [inView]);
+  const highlightClass = light ? "word-wood-light" : "word-wood";
 
   return (
     <Tag ref={containerRef as React.RefObject<HTMLHeadingElement>} className={className}>
       {words.map((word, i) => {
         const wordCleaned = word.toLowerCase().replace(/[^a-z]/g, "");
-        const isUnderlined = underlineWords.some(
+        const isHighlighted = highlightWords.some(
           (uw) => wordCleaned === uw.toLowerCase().replace(/[^a-z]/g, ""),
         );
 
@@ -102,15 +99,9 @@ function StaggeredHeadline({
           <Fragment key={i}>
             <span
               className={`reveal-word ${inView ? "reveal-word-in" : ""}`}
-              style={{ transitionDelay: `${i * 65}ms` }}
+              style={{ transitionDelay: `${i * 70}ms` }}
             >
-              {isUnderlined ? (
-                <span className={`underline-wood ${underlinesShown ? "underline-wood-drawn" : ""}`}>
-                  {word.replace(/[.,;:!?]$/, "")}
-                </span>
-              ) : (
-                word
-              )}
+              {isHighlighted ? <span className={highlightClass}>{word}</span> : word}
             </span>{" "}
           </Fragment>
         );
@@ -137,7 +128,7 @@ function PhotoGridTile({ img, label, location }: { img: string; label: string; l
       const rect = tileRef.current.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
-      tileRef.current.style.transform = `perspective(1200px) rotateY(${x * 5}deg) rotateX(${-y * 4}deg)`;
+      tileRef.current.style.transform = `perspective(1200px) rotateY(${x * 4}deg) rotateX(${-y * 3}deg)`;
     },
     [isTouch],
   );
@@ -154,7 +145,7 @@ function PhotoGridTile({ img, label, location }: { img: string; label: string; l
         ref={tileRef}
         onMouseMove={onMove}
         onMouseLeave={onLeave}
-        className="tilt-target group relative aspect-[4/3] w-full overflow-hidden"
+        className="tilt-target group relative aspect-[3/4] w-full overflow-hidden"
       >
         <img
           src={img}
@@ -163,12 +154,12 @@ function PhotoGridTile({ img, label, location }: { img: string; label: string; l
           className="animate-kenburns-hover h-full w-full object-cover"
         />
         <div
-          className="absolute inset-0 bg-gradient-to-t from-matte/55 via-transparent to-transparent"
+          className="absolute inset-0 bg-gradient-to-t from-matte/80 via-matte/10 to-transparent"
           aria-hidden="true"
         />
-        <div className="absolute bottom-4 left-4 right-4">
-          <p className="eyebrow mb-1 text-cream/85">{location}</p>
-          <p className="text-cream text-lg font-semibold leading-tight">{label}</p>
+        <div className="absolute inset-x-0 bottom-0 p-5">
+          <p className="eyebrow mb-1.5 text-wood-light">{location}</p>
+          <p className="display text-cream text-xl leading-tight sm:text-2xl">{label}</p>
         </div>
       </div>
     </Reveal>
@@ -176,7 +167,7 @@ function PhotoGridTile({ img, label, location }: { img: string; label: string; l
 }
 
 /* ------------------------------------------------------------------ */
-/*  Scroll-pinned intro statement section                               */
+/*  Scroll-pinned intro statement section (dark band)                   */
 /* ------------------------------------------------------------------ */
 
 function IntroSection() {
@@ -244,7 +235,7 @@ function IntroSection() {
   const line3Opacity = progress < 0.58 ? 0 : progress < 0.66 ? (progress - 0.58) / 0.08 : 1;
 
   return (
-    <section ref={sectionRef} className="relative" style={{ height: "250vh" }} id="about">
+    <section ref={sectionRef} className="relative bg-matte" style={{ height: "250vh" }} id="about">
       <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0">
@@ -252,25 +243,27 @@ function IntroSection() {
             src={statementImg}
             alt=""
             aria-hidden="true"
+            width={1536}
+            height={1024}
             className="animate-kenburns h-full w-full object-cover"
           />
         </div>
-        <div className="absolute inset-0 bg-matte/55" />
+        <div className="absolute inset-0 bg-matte/75" />
 
         {/* Text layers */}
-        <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
+        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
           {/* Line 1 */}
           <p
-            className="display text-[clamp(1.8rem,5vw,2.8rem)] text-cream transition-opacity duration-700"
+            className="display text-[clamp(2rem,5.5vw,3.6rem)] text-cream transition-opacity duration-700"
             style={{ opacity: line1Opacity }}
           >
-            Sixteen years of experience.
+            Sixteen years of <span className="word-wood-light">experience.</span>
           </p>
 
           {/* Line 2 */}
           <p
-            className="display text-[clamp(1.8rem,5vw,2.8rem)] text-cream transition-opacity duration-700"
-            style={{ opacity: line2Opacity, marginTop: "-0.5em" }}
+            className="display text-[clamp(2rem,5.5vw,3.6rem)] text-cream transition-opacity duration-700"
+            style={{ opacity: line2Opacity }}
           >
             <AnimatedCounter
               end={16}
@@ -279,19 +272,21 @@ function IntroSection() {
               start={showCounter}
               className="tabular-nums"
             />
-            , delivered without a single visible crack.
+            , delivered without a single{" "}
+            <span className="word-wood-light">visible crack.</span>
           </p>
 
           {/* Line 3 */}
           <div
             className="transition-opacity duration-700"
-            style={{ opacity: line3Opacity, marginTop: "-0.5em" }}
+            style={{ opacity: line3Opacity }}
           >
-            <p className="display text-[clamp(1.8rem,5vw,2.8rem)] text-cream">
-              Harnessing deep expertise across tourism, events and strategic marketing in Aotearoa
-              and internationally.
+            <p className="display text-[clamp(2rem,5.5vw,3.6rem)] text-cream">
+              Deep expertise across tourism, events and{" "}
+              <span className="word-wood-light">strategic marketing</span> in Aotearoa and
+              internationally.
             </p>
-            <p className="eyebrow mt-8 text-cream/60">Based in Taupō, New Zealand</p>
+            <p className="eyebrow mt-10 text-cream/50">Based in Taupō, New Zealand</p>
           </div>
         </div>
       </div>
@@ -305,84 +300,149 @@ function IntroSection() {
 
 function Index() {
   const scrollY = useScrollY();
+  const spectacleRef = useRef<HTMLDivElement>(null);
+  const [spectacleY, setSpectacleY] = useState(0);
+
+  useEffect(() => {
+    const el = spectacleRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const fromTop = rect.top + window.scrollY;
+    const rel = scrollY + window.innerHeight - fromTop;
+    setSpectacleY(rel * 0.08);
+  }, [scrollY]);
 
   return (
     <div id="top" className="bg-cream text-matte">
       <Nav />
 
       {/* ================================================================ */}
-      {/* 1 — HERO                                                         */}
+      {/* 1 — HERO (dark, full-bleed)                                      */}
       {/* ================================================================ */}
-      <section className="relative flex min-h-[calc(100vh-78px)] flex-col md:flex-row sm:min-h-[calc(100vh-88px)]">
-        {/* Left — text */}
-        <div className="flex flex-1 items-center bg-cream px-5 py-16 sm:px-10 md:py-0 lg:px-16 xl:px-20">
-          <div className="w-full max-w-xl">
-            <StaggeredHeadline
-              as="h1"
-              text="From concept to flawless execution."
-              underlineWords={["flawless", "execution"]}
-              className="display text-[clamp(2.6rem,7vw,5.5rem)] text-matte"
-            />
-
-            <Reveal delay={300} className="mt-6 max-w-lg">
-              <p className="text-base text-matte/65 sm:text-lg sm:leading-relaxed">
-                Event management and delivery for luxury incentive partners. Marketing strategy and
-                execution for corporate clients.
-              </p>
-            </Reveal>
-
-            <Reveal delay={380} className="mt-8 flex flex-wrap items-center gap-5">
-              <MagneticButton href="#contact">Start a project</MagneticButton>
-              <a
-                href="#experiences"
-                className="text-sm font-medium text-matte/50 underline-offset-4 transition-colors hover:text-wood hover:underline"
-              >
-                Our work &rsaquo;
-              </a>
-            </Reveal>
-          </div>
+      <section className="relative flex min-h-[calc(100vh-78px)] items-end overflow-hidden bg-matte sm:min-h-[calc(100vh-88px)]">
+        <div
+          className="absolute inset-0"
+          style={{ transform: `translate3d(0, ${scrollY * 0.2}px, 0)` }}
+        >
+          <img
+            src={heroImg}
+            alt="Aerial helicopter view over Queenstown lakes and the Southern Alps at golden hour"
+            width={1536}
+            height={1024}
+            className="animate-kenburns h-full w-full object-cover"
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-matte via-matte/45 to-matte/25"
+            aria-hidden="true"
+          />
         </div>
 
-        {/* Right — image */}
-        <div className="relative flex-1 overflow-hidden min-h-[45vh] md:min-h-0">
-          <div
-            className="absolute inset-0"
-            style={{ transform: `translate3d(0, ${scrollY * 0.25}px, 0)` }}
-          >
-            <img
-              src={heroImg}
-              alt="Scenic helicopter flight over mountains and lakes"
-              className="animate-kenburns h-full w-full object-cover"
-            />
-          </div>
+        <div className="relative z-10 mx-auto w-full max-w-[1440px] px-5 pb-14 sm:px-8 sm:pb-24">
+          <Reveal>
+            <p className="eyebrow text-wood-light">Events &amp; Marketing &middot; Taupō, New Zealand</p>
+          </Reveal>
+
+          <StaggeredHeadline
+            as="h1"
+            light
+            text="From concept to flawless execution."
+            highlightWords={["flawless", "execution."]}
+            className="display mt-6 max-w-[15ch] text-cream text-[clamp(2.9rem,9vw,8rem)]"
+          />
+
+          <Reveal delay={300} className="mt-7 max-w-xl">
+            <p className="text-base text-cream/70 sm:text-lg sm:leading-relaxed">
+              Event management and delivery for luxury incentive partners. Marketing strategy and
+              execution for corporate clients.
+            </p>
+          </Reveal>
+
+          <Reveal delay={380} className="mt-9 flex flex-wrap items-center gap-6">
+            <MagneticButton href="#contact" isLight>
+              Start a project
+            </MagneticButton>
+            <a
+              href="#experiences"
+              className="eyebrow text-cream/60 transition-colors hover:text-wood-light"
+            >
+              Our work &rsaquo;
+            </a>
+          </Reveal>
         </div>
       </section>
 
       {/* ================================================================ */}
-      {/* 2 — INTRO STATEMENT (scroll-pinned storytelling)                  */}
+      {/* 2 — INTRO STATEMENT (dark, scroll-pinned)                        */}
       {/* ================================================================ */}
       <IntroSection />
 
       {/* ================================================================ */}
-      {/* 3 — PHOTO GRID ("AS SEEN AT")                                     */}
+      {/* 3 — PORTFOLIO GRID (light)                                        */}
       {/* ================================================================ */}
       <section className="bg-cream">
-        <div className="mx-auto max-w-[1440px] px-5 py-24 sm:px-8 sm:py-32">
+        <div className="mx-auto max-w-[1440px] px-5 pt-24 sm:px-8 sm:pt-32">
           <Reveal>
             <p className="eyebrow text-wood">The Calibre of Work</p>
           </Reveal>
+          <StaggeredHeadline
+            text="Moments made to matter."
+            highlightWords={["matter."]}
+            className="display mt-5 max-w-[16ch] text-[clamp(2.2rem,6vw,5rem)]"
+          />
+        </div>
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2">
-            <PhotoGridTile img={expIncentive} label="Vineyard Dinner" location="Central Otago" />
-            <PhotoGridTile img={expMarketing} label="Incentive Programme" location="Queenstown" />
-            <PhotoGridTile img={expCorporate} label="Corporate Gala" location="Auckland" />
-            <PhotoGridTile img={expStrategy} label="Familiarisation Tour" location="Taupō" />
-          </div>
+        <div className="mt-14 grid grid-cols-2 gap-1 sm:gap-1.5 lg:grid-cols-4">
+          <PhotoGridTile img={expIncentive} label="Alpine Incentive" location="Queenstown" />
+          <PhotoGridTile img={statementImg} label="Vineyard Long-Table" location="Central Otago" />
+          <PhotoGridTile img={expMarketing} label="Lakeside Gala" location="Lake Wānaka" />
+          <PhotoGridTile img={expStrategy} label="Familiarisation Tour" location="Taupō" />
         </div>
       </section>
 
       {/* ================================================================ */}
-      {/* 4 — SERVICES                                                      */}
+      {/* 4 — SPECTACLE MOMENT (dark, wood-grain)                           */}
+      {/* ================================================================ */}
+      <section
+        ref={spectacleRef}
+        className="relative flex min-h-[70vh] items-center justify-center overflow-hidden bg-matte py-28 sm:min-h-[80vh]"
+      >
+        <div
+          className="absolute inset-0"
+          style={{ transform: `translate3d(0, ${spectacleY}px, 0) scale(1.15)` }}
+        >
+          <img
+            src={spectacleImg}
+            alt=""
+            aria-hidden="true"
+            width={1536}
+            height={1024}
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-matte/45" aria-hidden="true" />
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
+          <Reveal>
+            <p className="eyebrow text-cream/70">The Toulmin Standard</p>
+          </Reveal>
+          <Reveal delay={120}>
+            <h2 className="spectacle-type mt-6 text-[clamp(3.4rem,14vw,11rem)] uppercase">
+              Above
+              <span className="mx-[0.12em] italic lowercase font-normal opacity-90">&amp;</span>
+              Beyond
+            </h2>
+          </Reveal>
+          <Reveal delay={240}>
+            <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-cream/70 sm:text-lg">
+              One highly capable person with the confidence and scale of a proper agency — every
+              detail anticipated, nothing left to chance.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ================================================================ */}
+      {/* 5 — SERVICES (light)                                              */}
       {/* ================================================================ */}
       <section id="services" className="bg-cream">
         <div className="mx-auto max-w-[1440px] px-5 py-24 sm:px-8 sm:py-32">
@@ -392,8 +452,8 @@ function Index() {
 
           <StaggeredHeadline
             text="Two ways I can help."
-            underlineWords={["help"]}
-            className="display mt-5 max-w-[14ch] text-[clamp(2.2rem,6vw,4.8rem)]"
+            highlightWords={["help."]}
+            className="display mt-5 max-w-[14ch] text-[clamp(2.2rem,6vw,5rem)]"
           />
 
           <div className="mt-14 grid gap-6 lg:grid-cols-2">
@@ -426,12 +486,12 @@ function Index() {
               <Reveal
                 key={card.title}
                 delay={i * 140}
-                className="group flex flex-col border border-matte/10 p-8 sm:p-10"
+                className="group flex flex-col border border-matte/10 p-8 transition-colors duration-500 hover:border-wood/40 sm:p-10"
               >
-                <h3 className="display text-2xl sm:text-[1.75rem]">
+                <h3 className="display text-[1.6rem] sm:text-3xl">
                   <span className="underline-wood underline-wood-drawn">{card.title}</span>
                 </h3>
-                <p className="mt-4 text-matte/60">{card.context}</p>
+                <p className="mt-5 text-matte/60">{card.context}</p>
                 <div className="divider-wood mt-8" />
                 <ul className="mt-8 space-y-3.5">
                   {card.bullets.map((b) => (
@@ -457,22 +517,23 @@ function Index() {
       </section>
 
       {/* ================================================================ */}
-      {/* 5 — TESTIMONIALS / EXPERIENCES                                    */}
+      {/* 6 — EXPERIENCES / TRACK RECORD (dark)                            */}
       {/* ================================================================ */}
-      <section id="experiences" className="bg-cream">
+      <section id="experiences" className="bg-matte text-cream">
         <div className="mx-auto max-w-[1440px] px-5 py-24 sm:px-8 sm:py-32">
           <Reveal>
-            <p className="eyebrow text-wood">Experiences</p>
+            <p className="eyebrow text-wood-light">Experiences</p>
           </Reveal>
 
           <StaggeredHeadline
+            light
             text="A track record built on trust."
-            underlineWords={["trust"]}
-            className="display mt-5 max-w-[14ch] text-[clamp(2.2rem,6vw,4.8rem)]"
+            highlightWords={["trust."]}
+            className="display mt-5 max-w-[14ch] text-cream text-[clamp(2.2rem,6vw,5rem)]"
           />
 
           <div className="mt-14 overflow-x-auto scrollbar-hide snap-x snap-mandatory">
-            <div className="flex w-max gap-6 pb-4">
+            <div className="flex w-max gap-8 pb-4">
               {[
                 {
                   label: "Luxury Incentive Programme",
@@ -488,17 +549,17 @@ function Index() {
                 },
                 {
                   label: "Strategic Marketing Partnership",
-                  line: "Ongoing email, social and sponsorship strategy for a corporate client who no longer thinks about it — because it&rsquo;s handled.",
+                  line: "Ongoing email, social and sponsorship strategy for a corporate client who no longer thinks about it — because it\u2019s handled.",
                 },
               ].map((tile, i) => (
                 <Reveal
                   key={tile.label}
                   delay={i * 100}
-                  className="w-[300px] flex-shrink-0 snap-start sm:w-[360px]"
+                  className="w-[300px] flex-shrink-0 snap-start sm:w-[380px]"
                 >
-                  <div className="divider-wood mb-6" />
-                  <p className="eyebrow text-wood">{tile.label}</p>
-                  <p className="mt-4 text-lg leading-relaxed text-matte/75">{tile.line}</p>
+                  <div className="divider-wood mb-6 opacity-60" />
+                  <p className="eyebrow text-wood-light">{tile.label}</p>
+                  <p className="mt-4 text-lg leading-relaxed text-cream/75">{tile.line}</p>
                 </Reveal>
               ))}
             </div>
@@ -507,20 +568,20 @@ function Index() {
       </section>
 
       {/* ================================================================ */}
-      {/* 6 — CONTACT                                                       */}
+      {/* 7 — CONTACT (light)                                               */}
       {/* ================================================================ */}
       <section id="contact" className="bg-cream">
         <div className="mx-auto max-w-[1440px] px-5 py-24 sm:px-8 sm:py-32">
-          <div className="max-w-2xl">
+          <div className="max-w-3xl">
             <Reveal>
               <p className="eyebrow text-wood">Contact</p>
             </Reveal>
 
             <StaggeredHeadline
               text="Let's talk."
-              underlineWords={["talk"]}
+              highlightWords={["talk."]}
               as="h2"
-              className="display mt-5 max-w-[10ch] text-[clamp(2.8rem,9vw,7rem)]"
+              className="display mt-5 max-w-[10ch] text-[clamp(3rem,11vw,9rem)]"
             />
 
             <Reveal delay={200} className="mt-8">
@@ -554,7 +615,7 @@ function Index() {
       </section>
 
       {/* ================================================================ */}
-      {/* 7 — FOOTER                                                        */}
+      {/* 8 — FOOTER (dark)                                                 */}
       {/* ================================================================ */}
       <footer className="bg-matte text-cream">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-5 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
