@@ -143,13 +143,13 @@ export function Nav() {
         </div>
       </header>
 
-      {/* Ticker bar */}
-      <div className="fixed inset-x-0 top-[49px] z-40 overflow-hidden border-b border-wood/15 bg-cream sm:top-[57px]">
+      {/* Ticker bar — wood-grain accent band */}
+      <div className="bg-wood-texture group fixed inset-x-0 top-[49px] z-40 overflow-hidden shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_1px_0_rgba(0,0,0,0.15)] sm:top-[57px]">
         <div className="animate-marquee flex whitespace-nowrap py-2">
-          <span className="inline-block shrink-0 pr-8 font-medium text-[0.66rem] tracking-[0.22em] text-matte/45 uppercase">
+          <span className="inline-block shrink-0 pr-8 text-[0.66rem] font-medium uppercase tracking-[0.24em] text-cream/80">
             {tickerContent}
           </span>
-          <span className="inline-block shrink-0 pr-8 font-medium text-[0.66rem] tracking-[0.22em] text-matte/45 uppercase">
+          <span className="inline-block shrink-0 pr-8 text-[0.66rem] font-medium uppercase tracking-[0.24em] text-cream/80">
             {tickerContent}
           </span>
         </div>
