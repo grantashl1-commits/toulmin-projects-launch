@@ -92,7 +92,6 @@ export function Nav() {
                 {l.label}
               </a>
             ))}
-            <MagneticButton href="#contact">Start a project</MagneticButton>
           </nav>
 
           <button
