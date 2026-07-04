@@ -422,7 +422,7 @@ function Index() {
 
         <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
           <Reveal>
-            <p className="eyebrow text-cream/70">The Toulmin Standard</p>
+            <p className="eyebrow text-cream/70">The Approach</p>
           </Reveal>
           <Reveal delay={120}>
             <h2 className="spectacle-type mt-6 text-[clamp(3rem,13vw,10rem)] uppercase leading-[0.86]">
